@@ -36,6 +36,8 @@ namespace OrgInfoSystemFW.Model.Departamens
             }
         }
 
+        public ObservableCollection<Workers.BasePerson> Employees { get; set; }
+
         public ObservableCollection<BaseDepartament> SubDepartaments { get; set; }
 
         static BaseDepartament()

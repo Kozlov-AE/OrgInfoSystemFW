@@ -7,27 +7,47 @@ using System.Threading.Tasks;
 
 namespace OrgInfoSystemFW.Model.Workers
 {
+    /// <summary>
+    /// Руководители среднего звена (руководят руководителями одиночных отделов), Что то типа Мэра
+    /// </summary>
     public class LowDirector : BaseDirector
     {
         public LowDirector(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
         {}
 
-        public override ObservableCollection<DepartmentHead> Subordinates
+        /// <summary>
+        /// Подчиненные руководители отделов, включая LowDirector нижестоящих иерархий
+        /// </summary>
+        public override ObservableCollection<BasePerson> Subordinates
         {
             get
             {
-                ObservableCollection<BasePerson> sub = new ObservableCollection<BasePerson>();
-                foreach (var d in SubordinateDepartment)
+                ObservableCollection<BasePerson> subs = new ObservableCollection<BasePerson>();
+                foreach (var i in SubordinateDepartment)
                 {
-                    sub.Concat(Employees.HeadsOfDepartament(d));
+                    List<BasePerson> dh = new List<BasePerson>();
+                    List<BasePerson> ld = new List<BasePerson>();
+                    foreach (var w in i.Employees)
+                    {
+                        if (w is DepartmentHead) dh.Add(w);
+                        if (w is LowDirector) ld.Add(w);
+                    }
+                    if (ld.Count > 0) subs.Concat(ld);
+                    else subs.Concat(dh);
                 }
-                return sub;
+                return subs;
             }
         }
 
         public override double SalaryPayment()
         {
-            throw new NotImplementedException();
+            double sal = 0;
+            foreach (var w in Subordinates)
+            {
+                sal += w.SalaryPayment() * CoefSalary;
+            }
+            if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
+            return sal;
         }
     }
 }

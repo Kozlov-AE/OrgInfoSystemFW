@@ -71,12 +71,17 @@
   <ItemGroup>
     <Compile Include="Model\BaseINotify.cs" />
     <Compile Include="Model\Departamens\BaseDepartament.cs" />
+    <Compile Include="Model\Departamens\Departament.cs" />
+    <Compile Include="Model\Departamens\MainDeportament.cs" />
     <Compile Include="Model\Workers\BaseDirector.cs" />
     <Compile Include="Model\Workers\BasePerson.cs" />
     <Compile Include="Model\OrgPositions.cs" />
     <Compile Include="Model\Workers\DepartmentHead.cs" />
     <Compile Include="Model\Workers\BaseSubordinates.cs" />
+    <Compile Include="Model\Workers\King.cs" />
     <Compile Include="Model\Workers\LowDirector.cs" />
+    <Compile Include="Model\Workers\MidDirector.cs" />
+    <Compile Include="Model\Workers\TopDirector.cs" />
     <Compile Include="Model\Workers\Worker.cs" />
     <Compile Include="Model\Workers\Intern.cs" />
     <Compile Include="Model\Workers\Employees.cs" />

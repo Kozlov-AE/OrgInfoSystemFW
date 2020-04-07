@@ -44,27 +44,39 @@ namespace OrgInfoSystemFW.Model.Workers
         {
             EmployeesList.Remove(person);
         }
+
         /// <summary>
-        /// Получить всех сотрудников департамента и вложенных департаментов)
+        /// Руководители основных узлов иерархии выбранного департамента и входящих в него департаментов
         /// </summary>
         /// <param name="departament">Экземпляр департамента</param>
-        /// <returns></returns>
-        static public ObservableCollection<BasePerson> PersonalsOfDepartament (Departamens.BaseDepartament departament)
+        static public ObservableCollection<BaseDirector> DirectorsOfDepartament(Departamens.BaseDepartament departament)
         {
-            ObservableCollection<BasePerson> workers = new ObservableCollection<BasePerson>();
-            foreach (BasePerson w in EmployeesList)
+            ObservableCollection<BaseDirector> workers = new ObservableCollection<BaseDirector>();
+
+            if (departament.SubDepartaments.Count == 0)
             {
-                if (w.DepartamentId == departament.Id) workers.Add(w);
+                foreach (BasePerson w in EmployeesList)
+                {
+                    if (w.DepartamentId == departament.Id && w is DepartmentHead) workers.Add(w as DepartmentHead);
+                }
             }
-            foreach (var d in departament.SubDepartaments)
+            if (departament.SubDepartaments.Count > 0)
             {
-                workers.Concat(PersonalsOfDepartament(d));
-            }
-            return workers;
-        }
-        static public ObservableCollection<BasePerson> WorkersOfDepartament(Departamens.BaseDepartament departament)
-        {
-            ObservableCollection<BasePerson> workers = new ObservableCollection<BasePerson>();
+                foreach (var d in departament.SubDepartaments)
+                {
+                    if (d.SubDepartaments.Count == 0) workers.Concat(DirectorsOfDepartament(d));
+                    else
+                    {
+                        foreach (var w in EmployeesList)
+                        {
+                            if (w.DepartamentId == departament.Id && w is LowDirector) workers.Add(w as LowDirector);
+
+                        }
+                        workers.Add
+                    }
+                }
+            }    
+
             foreach (BasePerson w in EmployeesList)
             {
                 if (w.DepartamentId == departament.Id && w is BaseSubordinates) workers.Add(w);
@@ -75,16 +87,61 @@ namespace OrgInfoSystemFW.Model.Workers
             }
             return workers;
         }
-        static public ObservableCollection<BasePerson> HeadsOfDepartament(Departamens.BaseDepartament departament)
+
+        /// <summary>
+        /// Получаем список простых работников определенного департамента
+        /// </summary>
+        /// <param name="departament"></param>
+        /// <returns></returns>
+        static public ObservableCollection<BaseSubordinates> WorkersOfDepartament(Departamens.BaseDepartament departament)
         {
-            ObservableCollection<BasePerson> workers = new ObservableCollection<BasePerson>();
+            ObservableCollection<BaseSubordinates> workers = new ObservableCollection<BaseSubordinates>();
             foreach (BasePerson w in EmployeesList)
             {
-                if (w.DepartamentId == departament.Id && w is DepartmentHead) workers.Add(w);
+                if (w.DepartamentId == departament.Id && w is BaseSubordinates) workers.Add(w as BaseSubordinates);
+            }
+            return workers;
+        }
+
+        /// <summary>
+        /// Список руководителей верхних уровней в ветке заданного департамента
+        /// </summary>
+        /// <param name="departament">Экземпляр департамента</param>
+        static public ObservableCollection<MidDirector> LowDirectorsOfDepartament(Departamens.BaseDepartament departament)
+        {
+            ObservableCollection<MidDirector> workers = new ObservableCollection<MidDirector>();
+
+            if (departament.SubDepartaments.Count == 0)
+            {
+                foreach (BasePerson w in EmployeesList)
+                {
+                    if (w.DepartamentId == departament.Id && w is MidDirector) workers.Add(w as MidDirector);
+                }
+            }
+            if (departament.SubDepartaments.Count > 0)
+            {
+                foreach (var d in departament.SubDepartaments)
+                {
+                    if (d.SubDepartaments.Count == 0) workers.Concat(DirectorsOfDepartament(d));
+                    else
+                    {
+                        foreach (var w in EmployeesList)
+                        {
+                            if (w.DepartamentId == departament.Id && w is LowDirector) workers.Add(w as LowDirector);
+
+                        }
+                        workers.Add
+                    }
+                }
+            }
+
+            foreach (BasePerson w in EmployeesList)
+            {
+                if (w.DepartamentId == departament.Id && w is BaseSubordinates) workers.Add(w);
             }
             foreach (var d in departament.SubDepartaments)
             {
-                workers.Concat(HeadsOfDepartament(d));
+                workers.Concat(WorkersOfDepartament(d));
             }
             return workers;
         }

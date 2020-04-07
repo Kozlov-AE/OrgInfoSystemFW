@@ -14,9 +14,8 @@ namespace OrgInfoSystemFW.Model.Workers
         /// </summary>
         public ObservableCollection<Departamens.BaseDepartament> SubordinateDepartment { get; set; }
         /// <summary>
-        /// Подчиненный персонал (работники департаментов)
+        /// Подчиненный персонал
         /// </summary>
-        protected ObservableCollection<BasePerson> subordinates;
         public abstract ObservableCollection<BasePerson> Subordinates
         {
             get;
@@ -43,17 +42,7 @@ namespace OrgInfoSystemFW.Model.Workers
 
         public BaseDirector(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
         {
-        }
-
-        protected string error;
-        virtual public string Error
-        {
-            get { return error; }
-            set
-            {
-                error = value;
-                OnPropertyChanged("");
-            }
+            SubordinateDepartment = new ObservableCollection<Departamens.BaseDepartament>();
         }
 
         public abstract override double SalaryPayment();

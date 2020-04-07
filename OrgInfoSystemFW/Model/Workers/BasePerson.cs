@@ -68,17 +68,6 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        double salary;
-        public double Salary
-        {
-            get { return salary; }
-            set
-            {
-                salary = value;
-                OnPropertyChanged("");
-            }
-        }
-
         string position;
         public string Position
         {
