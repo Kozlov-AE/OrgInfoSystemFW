@@ -26,11 +26,8 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        public override double SalaryPayment()
-        {
-            return GetAllDepSalaryes() * CoefSalary;
-        }
-
+        public override double SalaryPayment() => GetAllDepSalaryes() * CoefSalary;
+        
         double GetAllDepSalaryes(double start = 0)
         {
             double sal = start;

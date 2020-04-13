@@ -1,0 +1,41 @@
+﻿<Window x:Class="OrgInfoSystemFW.View.OrgInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OrgInfoSystemFW.View"
+        mc:Ignorable="d"
+        Title="OrgInfo" Height="450" Width="800">
+    <!--Основное окно-->
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!--Дерево департаментов-->
+            <ColumnDefinition Width="1*"/>
+            <!--Разделитель-->
+            <ColumnDefinition Width="2"/>
+            <!--Список сотрудников выбранного дпартамента-->
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!--Меню-->
+            <RowDefinition Height="auto"/>
+            <!--Основная часть программы-->
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="2"/>
+        <!--Главное меню-->
+        <Menu Grid.Row="0" Grid.ColumnSpan="3" Height="20">
+            <MenuItem Header="Файл"/>
+            <MenuItem Header="Департаменты"/>
+            <MenuItem Header="Сотрудники"/>
+        </Menu>
+        <!--Дерево департаментов-->
+        <TreeView Grid.Row="1" Grid.Column="0">
+            
+        </TreeView>
+        <!--Спсок сотрудников выбранного департамента-->
+        <ListBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            
+        </ListBox>
+    </Grid>
+</Window>

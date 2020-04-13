@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace OrgInfoSystemFW.Model.Workers
 {
     /// <summary>
-    /// Почти Царь. Руководит директорами верхних уровней. Депутат в столице.
+    /// Почти Царь. Руководит директорами верхних уровней. Советник президента.
     /// </summary>
     public class TopDirector : MidDirector
     {
@@ -23,6 +23,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 ObservableCollection<BasePerson> subs = new ObservableCollection<BasePerson>();
                 foreach (var d in SubordinateDepartment)
                 {
+
                     subs.Concat(d.Employees.Where(e => e is MidDirector));
                 }
                 return subs;

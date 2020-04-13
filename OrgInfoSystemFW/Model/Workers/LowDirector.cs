@@ -32,8 +32,8 @@ namespace OrgInfoSystemFW.Model.Workers
                         if (w is DepartmentHead) dh.Add(w);
                         if (w is LowDirector) ld.Add(w);
                     }
-                    if (ld.Count > 0) subs.Concat(ld);
-                    else subs.Concat(dh);
+                    if (ld.Count > 0) ld.ForEach(_ => subs.Add(_));
+                    else dh.ForEach(_ => subs.Add(_));
                 }
                 return subs;
             }

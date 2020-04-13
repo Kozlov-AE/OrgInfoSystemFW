@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="View\OrgInfo.xaml.cs">
+      <DependentUpon>OrgInfo.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,6 +71,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\OrgInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\BaseINotify.cs" />
@@ -75,7 +83,6 @@
     <Compile Include="Model\Departamens\MainDeportament.cs" />
     <Compile Include="Model\Workers\BaseDirector.cs" />
     <Compile Include="Model\Workers\BasePerson.cs" />
-    <Compile Include="Model\OrgPositions.cs" />
     <Compile Include="Model\Workers\DepartmentHead.cs" />
     <Compile Include="Model\Workers\BaseSubordinates.cs" />
     <Compile Include="Model\Workers\King.cs" />
@@ -84,7 +91,6 @@
     <Compile Include="Model\Workers\TopDirector.cs" />
     <Compile Include="Model\Workers\Worker.cs" />
     <Compile Include="Model\Workers\Intern.cs" />
-    <Compile Include="Model\Workers\Employees.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
