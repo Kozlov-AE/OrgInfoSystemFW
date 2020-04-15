@@ -91,8 +91,8 @@ namespace OrgInfoSystemFW.ViewModel
                     DepartmentHead wkr = new DepartmentHead($"Начальничек{i}", $"Департамента_{dep.Id}", "Руководитель отдела", dep);
                     wkr.Address = "Какойто адрес в каком то городе";
                     wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                    wkr.CoefSalary = 1.15;
-                    wkr.LowSalary = 2000;
+                    wkr.CoefSalary = 15/100;
+                    wkr.LowSalary = 1000;
                     workers.Add(wkr);
                 }
             return workers;
@@ -126,8 +126,8 @@ namespace OrgInfoSystemFW.ViewModel
                         LowDirector wkr = new LowDirector($"Директорик", $"Департамента_{dep.Id}", "Директор ветки департаментов", dep);
                         wkr.Address = "Какойто адрес в каком то городе";
                         wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                        wkr.CoefSalary = 1.25;
-                        wkr.LowSalary = 4000;
+                        wkr.CoefSalary = 25/100;
+                        wkr.LowSalary = 2000;
                         workers.Add(wkr);
                     }
                     if (dep.GetCountWorkers()["MidDirector"] > 0 || dep.GetCountWorkers()["LowDirector"] > 0)
@@ -135,8 +135,8 @@ namespace OrgInfoSystemFW.ViewModel
                         MidDirector wkr = new MidDirector($"Директорик", $"Департамента_{dep.Id}", "Директор сектора департаментов", dep);
                         wkr.Address = "Какойто адрес в каком то городе";
                         wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                        wkr.CoefSalary = 0.4;
-                        wkr.LowSalary = 10000;
+                        wkr.CoefSalary = 40/100;
+                        wkr.LowSalary = 6000;
                         workers.Add(wkr);
                     }
             }
@@ -150,8 +150,8 @@ namespace OrgInfoSystemFW.ViewModel
                     TopDirector wkr = new TopDirector($"ТОПДиректор", $"Департамента_{dep.Id}", "Самый главный директор, подчинен царю", dep);
                     wkr.Address = "Какойто адрес в каком то городе";
                     wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                    wkr.CoefSalary = 0.20;
-                    wkr.LowSalary = 20000;
+                    wkr.CoefSalary = 20/100;
+                    wkr.LowSalary = 12000;
                     workers.Add(wkr);
                 }
             }
@@ -163,8 +163,8 @@ namespace OrgInfoSystemFW.ViewModel
                 King king = new King($"Его Величество", dep.Title, "Повелитель всей организации!", dep);
                 king.Address = "Какойто адрес в каком то городе";
                 king.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                king.CoefSalary = 0.35;
-                king.LowSalary = 100000;
+                king.CoefSalary = 35/100;
+                king.LowSalary = 20000;
                 workers.Add(king);
             }
             return workers;

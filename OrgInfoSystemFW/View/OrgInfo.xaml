@@ -56,6 +56,7 @@
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthday, StringFormat={}{0:dd.MM.yyyy}}"/>
                 <DataGridTextColumn Header="Лет" Binding="{Binding Age}"/>
+                <DataGridTextColumn Header="Должность" Binding="{Binding Position}"/>
                 <DataGridTextColumn Header="ЗП" Binding="{Binding SalaryPayment}"/>
             </DataGrid.Columns>
         </DataGrid>

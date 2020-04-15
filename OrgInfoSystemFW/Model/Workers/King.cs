@@ -21,8 +21,8 @@ namespace OrgInfoSystemFW.Model.Workers
         //{
         //    get
         //    {
-        //        double sal = GetAllDepSalaryes(Departament) * CoefSalary;
-        //        if (sal < LowSalary) sal = LowSalary;
+        //        double sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
+        //        //if (sal < LowSalary) sal = LowSalary;
         //        return sal;
         //    }
         //}
@@ -35,7 +35,7 @@ namespace OrgInfoSystemFW.Model.Workers
             }
             foreach (var d in dep.SubDepartaments)
             {
-                GetAllDepSalaryes(d, sal);
+                sal = GetAllDepSalaryes(d, sal);
             }
             return sal;
         }

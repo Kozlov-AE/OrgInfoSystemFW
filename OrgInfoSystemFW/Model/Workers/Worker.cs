@@ -12,8 +12,8 @@ namespace OrgInfoSystemFW.Model.Workers
         /// <summary>
         /// Кол-во отработанных часов при почасовой оплате
         /// </summary>
-        int workHours;
-        public int WorkHours
+        double workHours;
+        public double WorkHours
         {
             get { return workHours; }
             set

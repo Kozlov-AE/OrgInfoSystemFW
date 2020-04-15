@@ -35,7 +35,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 }
                 foreach (var d in dep.SubDepartaments)
                 {
-                    GetAllDepSalaryes(d, sal);
+                    sal = GetAllDepSalaryes(d, sal);
                 }
             }
             return sal;
