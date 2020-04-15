@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgInfoSystemFW.Model.Departamens;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,22 +13,33 @@ namespace OrgInfoSystemFW.Model.Workers
     /// </summary>
     public class TopDirector : MidDirector
     {
-        public TopDirector(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
+        public TopDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
 
-        public override ObservableCollection<BasePerson> Subordinates
+        protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
         {
-            get
+            double sal = start;
+            if (dep.SubDepartaments.Count == 0)
             {
-                ObservableCollection<BasePerson> subs = new ObservableCollection<BasePerson>();
-                foreach (var d in SubordinateDepartment)
+                foreach (var e in dep.Employees)
                 {
-
-                    subs.Concat(d.Employees.Where(e => e is MidDirector));
+                    if (e is DepartmentHead) sal += e.SalaryPayment;
                 }
-                return subs;
             }
+            else
+            {
+                foreach (var e in dep.Employees)
+                {
+                    if (e is MidDirector || e is LowDirector) sal += e.SalaryPayment;
+                }
+                foreach (var d in dep.SubDepartaments)
+                {
+                    GetAllDepSalaryes(d, sal);
+                }
+            }
+            return sal;
         }
+
     }
 }

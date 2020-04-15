@@ -18,7 +18,7 @@ namespace OrgInfoSystemFW
         {
             base.OnStartup(e);
             View.OrgInfo oi = new View.OrgInfo();
-            oi.DataContext = new MainVM();
+            //oi.DataContext = new MainVM();
             oi.Show();
         }
     }

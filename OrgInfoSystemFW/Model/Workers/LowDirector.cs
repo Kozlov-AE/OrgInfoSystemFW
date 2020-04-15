@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgInfoSystemFW.Model.Departamens;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,41 +13,20 @@ namespace OrgInfoSystemFW.Model.Workers
     /// </summary>
     public class LowDirector : BaseDirector
     {
-        public LowDirector(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
+        public LowDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {}
 
-        /// <summary>
-        /// Подчиненные руководители отделов, включая LowDirector нижестоящих иерархий
-        /// </summary>
-        public override ObservableCollection<BasePerson> Subordinates
+        protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
         {
-            get
+            double sal = start;
+            foreach (var e in dep.Employees)
             {
-                ObservableCollection<BasePerson> subs = new ObservableCollection<BasePerson>();
-                foreach (var i in SubordinateDepartment)
-                {
-                    List<BasePerson> dh = new List<BasePerson>();
-                    List<BasePerson> ld = new List<BasePerson>();
-                    foreach (var w in i.Employees)
-                    {
-                        if (w is DepartmentHead) dh.Add(w);
-                        if (w is LowDirector) ld.Add(w);
-                    }
-                    if (ld.Count > 0) ld.ForEach(_ => subs.Add(_));
-                    else dh.ForEach(_ => subs.Add(_));
-                }
-                return subs;
+                if (e is DepartmentHead) sal += e.SalaryPayment;
             }
-        }
-
-        public override double SalaryPayment()
-        {
-            double sal = 0;
-            foreach (var w in Subordinates)
+            foreach (var d in dep.SubDepartaments)
             {
-                sal += w.SalaryPayment() * CoefSalary;
+                GetAllDepSalaryes(d, sal);
             }
-            if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
             return sal;
         }
     }

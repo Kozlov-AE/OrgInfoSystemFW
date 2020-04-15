@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgInfoSystemFW.Model.Departamens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace OrgInfoSystemFW.Model.Workers
             get { return birthday; }
             set
             {
-                birthday = value;
+                birthday = value.Date;
                 OnPropertyChanged("");
             }
         }
@@ -57,16 +58,24 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        int departamentId;
-        public int DepartamentId
+        BaseDepartament departament;
+        public BaseDepartament Departament
         {
-            get { return departamentId; }
+            get { return departament; }
             set
             {
-                departamentId = value;
+                departament = value;
                 OnPropertyChanged("");
             }
         }
+
+
+
+        /// <summary>
+        /// Метод начисления зарплаты
+        /// </summary>
+        /// <returns>Зарплата за период</returns>
+        public abstract double SalaryPayment { get; }
 
         string position;
         public string Position
@@ -84,20 +93,23 @@ namespace OrgInfoSystemFW.Model.Workers
             globalId = 1;
         }
 
-        public BasePerson (string name, string surname, string position, int departamentId = 0)
+        public BasePerson(string name, string surname, string position, BaseDepartament departament)
         {
             this.id = NextID();
             this.Name = name;
             this.Surname = surname;
             this.Position = position;
-            this.DepartamentId = departamentId;
+            this.Departament = departament;
         }
-
-        /// <summary>
-        /// Метод начисления зарплаты
-        /// </summary>
-        /// <returns>Зарплата за период</returns>
-        public abstract double SalaryPayment();
+        public int Age
+        {
+            get
+            {
+                var age = DateTime.Now.Year - Birthday.Year;
+                if (DateTime.Now.DayOfYear < Birthday.DayOfYear) age--; //на случай, если день рождения ещё не наступил
+                return age;   
+            }
+        }
         /// <summary>
         /// Увеличиваем статичный ID
         /// </summary>

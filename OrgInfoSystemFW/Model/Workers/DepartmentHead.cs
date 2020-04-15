@@ -4,43 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
-
+using OrgInfoSystemFW.Model.Departamens;
 
 namespace OrgInfoSystemFW.Model.Workers
 {
     public class DepartmentHead : BaseDirector
     {
-        /// <summary>
-        /// Подчиненный персонал (работники департаментов). Что то типа директора завода или мелкого чиновника.
-        /// </summary>
-        public override ObservableCollection<BasePerson> Subordinates
+        public DepartmentHead(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
+        {
+        }
+
+        public override double SalaryPayment
         {
             get
             {
-                ObservableCollection<BasePerson> w = new ObservableCollection<BasePerson>();
-                foreach (var item in SubordinateDepartment[0].Employees)
+                double sal = 0;
+                foreach (var s in Departament.Employees)
                 {
-                    if (item is BaseSubordinates) w.Add(item);
+                    if (s is BaseSubordinates)
+                        sal += (s as BaseSubordinates).Salary * CoefSalary;
                 }
-                return w;
+                if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
+                return sal;
             }
         }
 
-
-        public DepartmentHead(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
-        {
-        }
-
-        public override double SalaryPayment()
-        {
-            double sal = 0;
-            foreach (var w in Subordinates)
-            {
-                if (w is BaseSubordinates)
-                    sal += (w as BaseSubordinates).Salary * CoefSalary;
-            }
-            if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
-            return sal;
-        }
     }
 }

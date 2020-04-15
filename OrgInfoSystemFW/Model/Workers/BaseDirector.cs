@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgInfoSystemFW.Model.Departamens;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,18 +10,6 @@ namespace OrgInfoSystemFW.Model.Workers
 {
     public abstract class BaseDirector : BasePerson
     {
-        /// <summary>
-        /// Департаменты в управлении (задается отдельно)
-        /// </summary>
-        public ObservableCollection<Departamens.BaseDepartament> SubordinateDepartment { get; set; }
-        /// <summary>
-        /// Подчиненный персонал
-        /// </summary>
-        public abstract ObservableCollection<BasePerson> Subordinates
-        {
-            get;
-        }
-
         protected double coefSalary;
         public double CoefSalary
         {
@@ -39,12 +28,33 @@ namespace OrgInfoSystemFW.Model.Workers
         /// </summary>
         public double LowSalary = 0;
 
-
-        public BaseDirector(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
+        public override double SalaryPayment
         {
-            SubordinateDepartment = new ObservableCollection<Departamens.BaseDepartament>();
+            get
+            {
+                double sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
+                if (sal < LowSalary) sal = LowSalary;
+                return sal;
+            }
         }
 
-        public abstract override double SalaryPayment();
+        protected virtual double GetAllDepSalaryes(BaseDepartament StartDepartament, double start)
+        {
+            double sal = start;
+            foreach (var e in StartDepartament.Employees)
+            {
+                if (e is BaseDirector) sal += e.SalaryPayment;
+            }
+            foreach (var d in StartDepartament.SubDepartaments)
+            {
+                GetAllDepSalaryes(d, sal);
+            }
+            return sal;
+        }
+
+
+        public BaseDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
+        {
+        }
     }
 }

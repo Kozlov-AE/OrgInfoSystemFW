@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgInfoSystemFW.Model.Departamens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,12 +23,9 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        public override double SalaryPayment()
-        {
-            return WorkHours * Salary;
-        }
+        public override double SalaryPayment => WorkHours * Salary;
 
-        public Worker(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId) { }
+        public Worker(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament) { }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OrgInfoSystemFW.Model.Departamens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace OrgInfoSystemFW.Model.Workers
     abstract public class BaseSubordinates : BasePerson
     {
         protected double salary;
+        private BaseDepartament departament;
+
         public double Salary
         {
             get { return salary; }
@@ -19,11 +22,8 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        public BaseSubordinates(string name, string surname, string position, int departamentId = 0) : base(name, surname, position, departamentId)
+        public BaseSubordinates(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
-
-        public abstract override double SalaryPayment();
-
     }
 }

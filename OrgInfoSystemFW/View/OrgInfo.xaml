@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrgInfoSystemFW.View"
+        xmlns:vm="clr-namespace:OrgInfoSystemFW.ViewModel"
         mc:Ignorable="d"
-        Title="OrgInfo" Height="450" Width="800">
+        Title="OrgInfo" Height="450" Width="800" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <Window.DataContext>
+        <vm:MainVM/>
+    </Window.DataContext>
     <!--Основное окно-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,27 +19,45 @@
             <ColumnDefinition Width="2"/>
             <!--Список сотрудников выбранного дпартамента-->
             <ColumnDefinition Width="3*"/>
+            <!--Разделитель-->
+            <ColumnDefinition Width="2"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <!--Меню-->
             <RowDefinition Height="auto"/>
             <!--Основная часть программы-->
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <GridSplitter Grid.Column="1" Grid.Row="1" Width="2"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="2" VerticalAlignment="Stretch" ResizeBehavior="PreviousAndNext"/>
         <!--Главное меню-->
-        <Menu Grid.Row="0" Grid.ColumnSpan="3" Height="20">
+        <Menu Grid.Row="0" Grid.ColumnSpan="5" Height="20">
             <MenuItem Header="Файл"/>
             <MenuItem Header="Департаменты"/>
             <MenuItem Header="Сотрудники"/>
         </Menu>
         <!--Дерево департаментов-->
-        <TreeView Grid.Row="1" Grid.Column="0">
-            
+        <TreeView Grid.Row="1" Grid.Column="0" 
+                  x:Name="DepartamensTree" 
+                  ItemsSource="{Binding Deps}" 
+                  SelectedValuePath="{Binding XPath=SelectedDepartament, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding SubDepartaments}">
+                    <TextBlock Text="{Binding Path=Title}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
         </TreeView>
-        <!--Спсок сотрудников выбранного департамента-->
-        <ListBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            
-        </ListBox>
+        <!--Список сотрудников выбранного департамента-->
+        <DataGrid Grid.Row="1" Grid.Column="2" 
+                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  AutoGenerateColumns="False"
+                 ItemsSource="{Binding ElementName=DepartamensTree, Path=SelectedValue.Employees}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthday, StringFormat={}{0:dd.MM.yyyy}}"/>
+                <DataGridTextColumn Header="Лет" Binding="{Binding Age}"/>
+                <DataGridTextColumn Header="ЗП" Binding="{Binding SalaryPayment}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

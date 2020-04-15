@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OrgInfoSystemFW
+namespace OrgInfoSystemFW.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для EmoloyeeDetalizePage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EmoloyeeDetalizePage : Page
     {
-        public MainWindow()
+        public EmoloyeeDetalizePage()
         {
             InitializeComponent();
         }
