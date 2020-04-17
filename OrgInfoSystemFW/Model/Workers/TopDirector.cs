@@ -16,30 +16,5 @@ namespace OrgInfoSystemFW.Model.Workers
         public TopDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
-
-        protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
-        {
-            double sal = start;
-            if (dep.SubDepartaments.Count == 0)
-            {
-                foreach (var e in dep.Employees)
-                {
-                    if (e is DepartmentHead) sal += e.SalaryPayment;
-                }
-            }
-            else
-            {
-                foreach (var e in dep.Employees)
-                {
-                    if (e is MidDirector || e is LowDirector) sal += e.SalaryPayment;
-                }
-                foreach (var d in dep.SubDepartaments)
-                {
-                    sal = GetAllDepSalaryes(d, sal);
-                }
-            }
-            return sal;
-        }
-
     }
 }

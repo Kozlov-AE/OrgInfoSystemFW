@@ -17,15 +17,6 @@ namespace OrgInfoSystemFW.Model.Workers
         {
         }
 
-        //public override double SalaryPayment
-        //{
-        //    get
-        //    {
-        //        double sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
-        //        //if (sal < LowSalary) sal = LowSalary;
-        //        return sal;
-        //    }
-        //}
         protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
         {
             double sal = start;

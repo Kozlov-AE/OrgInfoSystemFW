@@ -25,7 +25,7 @@ namespace OrgInfoSystemFW.ViewModel
             Md.SubDepartaments = new ObservableCollection<BaseDepartament>();
             for (int i = 0; i < rnd.Next(1,5); i++)
             {
-                Md.SubDepartaments.Add(GenerateDepartament(Md.Id, rnd.Next(0, 5), rnd, rnd.Next(3, 5)));
+                Md.SubDepartaments.Add(GenerateDepartament(Md.Id, rnd.Next(0, 5), rnd, rnd.Next(5, 10)));
             }
             Md.Employees = Second_LevelMakerEmployees(rnd.Next(10,20), Md);
             Deps = new ObservableCollection<BaseDepartament>() { Md };
@@ -68,7 +68,7 @@ namespace OrgInfoSystemFW.ViewModel
             ObservableCollection<BasePerson> workers = new ObservableCollection<BasePerson>();
             int interns = rnd.Next(0, count / 3);
             int wks = count - interns;
-            int hw = count / (rnd.Next(5, 10));
+            int hw = (count / rnd.Next(4, 9))+1;
                 for (int i = 0; i < interns; i++)
                 {
                     Intern wkr = new Intern($"Интерн_{i}", $"Департамента_{dep.Id}", "Интерн", dep);
@@ -91,7 +91,7 @@ namespace OrgInfoSystemFW.ViewModel
                     DepartmentHead wkr = new DepartmentHead($"Начальничек{i}", $"Департамента_{dep.Id}", "Руководитель отдела", dep);
                     wkr.Address = "Какойто адрес в каком то городе";
                     wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                    wkr.CoefSalary = 15/100;
+                    wkr.CoefSalary = 0.15;
                     wkr.LowSalary = 1000;
                     workers.Add(wkr);
                 }
@@ -111,61 +111,70 @@ namespace OrgInfoSystemFW.ViewModel
             {
                 workers = First_LevelMakerEmployees(count, dep);
             }
-            if (dep.SubDepartaments.Count > 0)
+            else
             {
+                int ld = 0;
                 foreach (var d in dep.SubDepartaments)
                 {
                     if (d.Employees.Count == 0)
                     {
                         d.Employees = Second_LevelMakerEmployees(count, d);
                     }
+                    foreach (var e in d.Employees)
+                    {
+                        if (e.GetType() == typeof(LowDirector)) ld++;
+                        if (e.GetType() == typeof(MidDirector)) ld++;
+
+                    }
                 }
-                    workers = First_LevelMakerEmployees(count, dep);
-                    if (dep.GetCountWorkers()["MidDirector"] == 0)
-                    {
-                        LowDirector wkr = new LowDirector($"Директорик", $"Департамента_{dep.Id}", "Директор ветки департаментов", dep);
-                        wkr.Address = "Какойто адрес в каком то городе";
-                        wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                        wkr.CoefSalary = 25/100;
-                        wkr.LowSalary = 2000;
-                        workers.Add(wkr);
-                    }
-                    if (dep.GetCountWorkers()["MidDirector"] > 0 || dep.GetCountWorkers()["LowDirector"] > 0)
-                    {
-                        MidDirector wkr = new MidDirector($"Директорик", $"Департамента_{dep.Id}", "Директор сектора департаментов", dep);
-                        wkr.Address = "Какойто адрес в каком то городе";
-                        wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                        wkr.CoefSalary = 40/100;
-                        wkr.LowSalary = 6000;
-                        workers.Add(wkr);
-                    }
-            }
-            //Заполняем верхний уровень департаментов
-            if (dep.ParentId == 1)
-            {
-                //Обычный персонал. Секретарши и т.п.
-                workers = First_LevelMakerEmployees(rnd.Next(3,6), dep);
-                for (int i = 0; i < dep.SubDepartaments.Count; i++)
+
+                if (ld > 0)
                 {
-                    TopDirector wkr = new TopDirector($"ТОПДиректор", $"Департамента_{dep.Id}", "Самый главный директор, подчинен царю", dep);
+                    workers = First_LevelMakerEmployees(count, dep);
+                    MidDirector wkr = new MidDirector($"Директорик", $"Департамента_{dep.Id}", "Директор сектора департаментов", dep);
                     wkr.Address = "Какойто адрес в каком то городе";
                     wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                    wkr.CoefSalary = 20/100;
-                    wkr.LowSalary = 12000;
+                    wkr.CoefSalary = 0.4;
+                    wkr.LowSalary = 6000;
                     workers.Add(wkr);
                 }
-            }
-            //Генерим самого главного директора
-            if (dep.ParentId == 0)
-            {
-                //Обычный персонал. Секретарши и т.п.
-                workers = First_LevelMakerEmployees(rnd.Next(3,6), dep);
-                King king = new King($"Его Величество", dep.Title, "Повелитель всей организации!", dep);
-                king.Address = "Какойто адрес в каком то городе";
-                king.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
-                king.CoefSalary = 35/100;
-                king.LowSalary = 20000;
-                workers.Add(king);
+                else 
+                {
+                    workers = First_LevelMakerEmployees(count, dep);
+                    LowDirector wkr = new LowDirector($"Директорик", $"Департамента_{dep.Id}", "Директор ветки департаментов", dep);
+                    wkr.Address = "Какойто адрес в каком то городе";
+                    wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
+                    wkr.CoefSalary = 0.25;
+                    wkr.LowSalary = 2000;
+                    workers.Add(wkr);
+                }
+                //Заполняем верхний уровень департаментов
+                if (dep.ParentId == 1)
+                {
+                    //Обычный персонал. Секретарши и т.п.
+                    workers = First_LevelMakerEmployees(rnd.Next(3,6), dep);
+                    for (int i = 0; i < dep.SubDepartaments.Count; i++)
+                    {
+                        TopDirector wkr = new TopDirector($"ТОПДиректор", $"Департамента_{dep.Id}", "Самый главный директор, подчинен царю", dep);
+                        wkr.Address = "Какойто адрес в каком то городе";
+                        wkr.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
+                        wkr.CoefSalary = 0.4;
+                        wkr.LowSalary = 12000;
+                        workers.Add(wkr);
+                    }
+                }
+                //Генерим самого главного директора
+                if (dep.ParentId == 0)
+                {
+                    //Обычный персонал. Секретарши и т.п.
+                    workers = First_LevelMakerEmployees(rnd.Next(3,6), dep);
+                    King king = new King($"Его Величество", dep.Title, "Повелитель всей организации!", dep);
+                    king.Address = "Какойто адрес в каком то городе";
+                    king.Birthday = GetRandomDay((DateTime.Now).AddYears(-69), (DateTime.Now).AddYears(-19));
+                    king.CoefSalary = 0.35;
+                    king.LowSalary = 20000;
+                    workers.Add(king);
+                }
             }
             return workers;
         }

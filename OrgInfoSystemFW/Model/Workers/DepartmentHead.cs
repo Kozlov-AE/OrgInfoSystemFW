@@ -18,16 +18,22 @@ namespace OrgInfoSystemFW.Model.Workers
         {
             get
             {
-                double sal = 0;
-                foreach (var s in Departament.Employees)
-                {
-                    if (s is BaseSubordinates)
-                        sal += (s as BaseSubordinates).Salary * CoefSalary;
-                }
+                var sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
                 if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
                 return sal;
             }
         }
 
+        protected override double GetAllDepSalaryes(BaseDepartament StartDepartament, double start)
+        {
+            double sal = 0;
+            foreach (var s in Departament.Employees)
+            {
+                if (s is BaseSubordinates)
+                    sal += (s as BaseSubordinates).SalaryPayment;
+            }
+                return sal;
+
+        }
     }
 }

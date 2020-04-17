@@ -16,8 +16,7 @@ namespace OrgInfoSystemFW.Model.Workers
             get { return coefSalary; }
             set
             {
-                if (value <= 0)
-                    coefSalary = 1;
+                coefSalary = value;
                 OnPropertyChanged("");
             }
         }
@@ -38,19 +37,7 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        protected virtual double GetAllDepSalaryes(BaseDepartament StartDepartament, double start)
-        {
-            double sal = start;
-            foreach (var e in StartDepartament.Employees)
-            {
-                if (e is BaseDirector) sal += e.SalaryPayment;
-            }
-            foreach (var d in StartDepartament.SubDepartaments)
-            {
-                GetAllDepSalaryes(d, sal);
-            }
-            return sal;
-        }
+        protected abstract double GetAllDepSalaryes(BaseDepartament StartDepartament, double start);
 
 
         public BaseDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)

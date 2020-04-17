@@ -7,9 +7,9 @@
         xmlns:vm="clr-namespace:OrgInfoSystemFW.ViewModel"
         mc:Ignorable="d"
         Title="OrgInfo" Height="450" Width="800" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainVM/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <!--Основное окно-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -55,9 +55,9 @@
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Фамилия" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Дата рождения" Binding="{Binding Birthday, StringFormat={}{0:dd.MM.yyyy}}"/>
-                <DataGridTextColumn Header="Лет" Binding="{Binding Age}"/>
+                <DataGridTextColumn Header="Лет" Binding="{Binding Age, Mode=OneWay}"/>
                 <DataGridTextColumn Header="Должность" Binding="{Binding Position}"/>
-                <DataGridTextColumn Header="ЗП" Binding="{Binding SalaryPayment}"/>
+                <DataGridTextColumn Header="ЗП" Binding="{Binding SalaryPayment, StringFormat={}{0:C}, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

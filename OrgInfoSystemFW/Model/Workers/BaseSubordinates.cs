@@ -10,7 +10,6 @@ namespace OrgInfoSystemFW.Model.Workers
     abstract public class BaseSubordinates : BasePerson
     {
         protected double salary;
-        private BaseDepartament departament;
 
         public double Salary
         {
