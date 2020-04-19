@@ -11,6 +11,9 @@ namespace OrgInfoSystemFW.Model.Workers
     public abstract class BaseDirector : BasePerson
     {
         protected double coefSalary;
+        /// <summary>
+        /// Зарплатный коэфициент
+        /// </summary>
         public double CoefSalary
         {
             get { return coefSalary; }
@@ -20,26 +23,30 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
-
         /// <summary>
         /// Минимальная ЗП
         /// </summary>
         public double LowSalary = 0;
-
+        /// <summary>
+        /// Начисленная ЗП
+        /// </summary>
         public override double SalaryPayment
         {
             get
             {
-                double sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
+                double sal = GetAllDepSalaryes(0) * CoefSalary;
                 if (sal < LowSalary) sal = LowSalary;
                 return sal;
             }
         }
 
-        protected abstract double GetAllDepSalaryes(BaseDepartament StartDepartament, double start);
+        /// <summary>
+        /// Просчитывает ЗП сотрудников в подчиненных департаментах
+        /// </summary>
+        /// <param name="start">Начальная ЗП</param>
+        protected abstract double GetAllDepSalaryes(double start);
 
-
+        public BaseDirector() { }
         public BaseDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }

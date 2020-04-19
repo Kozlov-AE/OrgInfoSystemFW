@@ -13,6 +13,10 @@ namespace OrgInfoSystemFW.Model.Workers
     /// </summary>
     public class TopDirector : MidDirector
     {
+        public TopDirector()
+        {
+        }
+
         public TopDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }

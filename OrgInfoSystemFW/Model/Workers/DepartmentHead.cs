@@ -10,6 +10,10 @@ namespace OrgInfoSystemFW.Model.Workers
 {
     public class DepartmentHead : BaseDirector
     {
+        public DepartmentHead()
+        {
+        }
+
         public DepartmentHead(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
@@ -18,13 +22,13 @@ namespace OrgInfoSystemFW.Model.Workers
         {
             get
             {
-                var sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
+                var sal = GetAllDepSalaryes(0) * CoefSalary;
                 if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
                 return sal;
             }
         }
 
-        protected override double GetAllDepSalaryes(BaseDepartament StartDepartament, double start)
+        protected override double GetAllDepSalaryes(double start)
         {
             double sal = 0;
             foreach (var s in Departament.Employees)

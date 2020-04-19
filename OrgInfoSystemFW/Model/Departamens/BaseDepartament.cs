@@ -11,6 +11,9 @@ namespace OrgInfoSystemFW.Model.Departamens
     public abstract class BaseDepartament : BaseINotify
     {
         protected string title;
+        /// <summary>
+        /// Наименование
+        /// </summary>
         public string Title
         {
             get { return title; }
@@ -21,12 +24,21 @@ namespace OrgInfoSystemFW.Model.Departamens
             }
         }
 
+        /// <summary>
+        /// Статичный ID, уникальный
+        /// </summary>
         static int globalId;
 
         protected int id;
+        /// <summary>
+        /// Уникальный ID
+        /// </summary>
         public int Id => id;
 
         protected int parentId;
+        /// <summary>
+        /// Родительский департамент
+        /// </summary>
         public int ParentId
         {
             get { return parentId; }
@@ -53,6 +65,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         {
             globalId = 0;
         }
+        public BaseDepartament() { }
         /// <summary>
         /// Нормальный конструктор
         /// </summary>

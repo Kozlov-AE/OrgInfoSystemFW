@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Workers\JsonWorker.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
     <Compile Include="View\OrgInfo.xaml.cs">
       <DependentUpon>OrgInfo.xaml</DependentUpon>

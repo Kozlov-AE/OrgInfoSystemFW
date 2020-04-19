@@ -13,26 +13,21 @@ namespace OrgInfoSystemFW.Model.Workers
     /// </summary>
     public class LowDirector : BaseDirector
     {
+        public LowDirector()
+        {
+        }
+
         public LowDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {}
-        //public override double SalaryPayment
-        //{
-        //    get
-        //    {
-        //        double sal = GetAllDepSalaryes(Departament, 0) * coefSalary;
-        //        if (sal < LowSalary) sal = LowSalary;
-        //        return sal;
-        //    }
-        //}
 
-        protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
+        protected override double GetAllDepSalaryes(double start)
         {
             double sal = start;
-            foreach (var e in dep.Employees)
+            foreach (var e in Departament.Employees)
             {
                 if (e is DepartmentHead) sal += e.SalaryPayment;
             }
-            foreach (var d in dep.SubDepartaments)
+            foreach (var d in Departament.SubDepartaments)
             {
                 foreach (var e in d.Employees)
                 {

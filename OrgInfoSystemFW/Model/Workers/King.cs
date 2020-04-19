@@ -13,11 +13,29 @@ namespace OrgInfoSystemFW.Model.Workers
     /// </summary>
     public class King : TopDirector
     {
-        public King(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
+        public King()
         {
         }
 
-        protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
+        public King(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
+        {
+        }
+        public override double SalaryPayment
+        {
+            get
+            {
+                double sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
+                if (sal < LowSalary) sal = LowSalary;
+                return sal;
+            }
+        }
+
+        /// <summary>
+        /// Просчитывает ЗП работяг в подчиненных департаментах
+        /// </summary>
+        /// <param name="start">Начальная ЗП</param>
+        /// <param name="dep">Департамент для подсчета</param>
+        protected double GetAllDepSalaryes(BaseDepartament dep, double start)
         {
             double sal = start;
             foreach (var e in dep.Employees)

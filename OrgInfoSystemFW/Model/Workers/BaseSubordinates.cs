@@ -10,7 +10,6 @@ namespace OrgInfoSystemFW.Model.Workers
     abstract public class BaseSubordinates : BasePerson
     {
         protected double salary;
-
         public double Salary
         {
             get { return salary; }
@@ -21,6 +20,7 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
+        public BaseSubordinates() { }
         public BaseSubordinates(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }

@@ -13,20 +13,23 @@ namespace OrgInfoSystemFW.Model.Workers
     /// </summary>
     public class MidDirector : LowDirector
     {
+        public MidDirector()
+        {
+        }
+
         public MidDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         { }
-
-        protected override double GetAllDepSalaryes(BaseDepartament dep, double start)
+        protected override double GetAllDepSalaryes(double start)
         {
             double sal = start;
-            foreach (var e in dep.Employees)
+            foreach (var e in Departament.Employees)
             {
-                if (dep.SubDepartaments.Count == 0)
+                if (Departament.SubDepartaments.Count == 0)
                     if (e is DepartmentHead) sal += e.SalaryPayment;
                 else
                     if (e.GetType() == typeof(LowDirector)) sal += e.SalaryPayment;
             }
-            foreach (var d in dep.SubDepartaments)
+            foreach (var d in Departament.SubDepartaments)
             {
                 if(d.SubDepartaments.Count == 0)
                     foreach (var e in d.Employees)

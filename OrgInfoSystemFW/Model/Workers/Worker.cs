@@ -27,5 +27,8 @@ namespace OrgInfoSystemFW.Model.Workers
 
         public Worker(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament) { }
 
+        public Worker()
+        {
+        }
     }
 }

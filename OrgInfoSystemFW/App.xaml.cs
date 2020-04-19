@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OrgInfoSystemFW.Model.Workers;
 using OrgInfoSystemFW.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,7 @@ namespace OrgInfoSystemFW
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            string json = JsonConvert.SerializeObject(mv.Md, Formatting.Indented);
-            File.WriteAllText("DB", json);
+            File.WriteAllText("DB.json", JsonWorker.SerializeDepartamentWithSub(mv.Md).ToString());
         }
     }
 }

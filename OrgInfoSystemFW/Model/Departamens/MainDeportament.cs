@@ -12,6 +12,10 @@ namespace OrgInfoSystemFW.Model.Departamens
         {
         }
 
+        public MainDeportament() : base()
+        {
+        }
+
         protected string address;
         public string Address
         {

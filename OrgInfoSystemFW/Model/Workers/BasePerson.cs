@@ -1,4 +1,6 @@
-﻿using OrgInfoSystemFW.Model.Departamens;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OrgInfoSystemFW.Model.Departamens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +12,18 @@ namespace OrgInfoSystemFW.Model.Workers
     public abstract class BasePerson : BaseINotify
     {
         static int globalId;
-
+        /// <summary>
+        /// Класс
+        /// </summary>
+        public string Class { get; set; }
+        /// <summary>
+        /// Уникальный ID
+        /// </summary>
         int id;
         public int Id => id;
-
+        /// <summary>
+        /// Имя
+        /// </summary>
         string name;
         public string Name
         {
@@ -24,7 +34,9 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
+        /// <summary>
+        /// Фамилия
+        /// </summary>
         string surname;
         public string Surname
         {
@@ -35,7 +47,9 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
+        /// <summary>
+        /// День рождения
+        /// </summary>
         DateTime birthday;
         public DateTime Birthday
         {
@@ -46,7 +60,9 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
+        /// <summary>
+        /// Адрес проживания
+        /// </summary>
         string address;
         public string Address
         {
@@ -57,7 +73,9 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
+        /// <summary>
+        /// Департамент в котором он находится
+        /// </summary>
         BaseDepartament departament;
         public BaseDepartament Departament
         {
@@ -68,15 +86,9 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
-
-
         /// <summary>
-        /// Метод начисления зарплаты
+        /// Занимаемая должность
         /// </summary>
-        /// <returns>Зарплата за период</returns>
-        public abstract double SalaryPayment { get; }
-
         string position;
         public string Position
         {
@@ -87,20 +99,9 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-
-        static BasePerson()
-        {
-            globalId = 1;
-        }
-
-        public BasePerson(string name, string surname, string position, BaseDepartament departament)
-        {
-            this.id = NextID();
-            this.Name = name;
-            this.Surname = surname;
-            this.Position = position;
-            this.Departament = departament;
-        }
+        /// <summary>
+        /// Вычисляет возраст на основе даты рождения
+        /// </summary>
         public int Age
         {
             get
@@ -110,6 +111,28 @@ namespace OrgInfoSystemFW.Model.Workers
                 return age;   
             }
         }
+
+
+        /// <summary>
+        /// Метод начисления зарплаты
+        /// </summary>
+        /// <returns>Зарплата за период</returns>
+        public abstract double SalaryPayment { get; }
+
+        static BasePerson()
+        {
+            globalId = 1;
+        }
+        public BasePerson(string name, string surname, string position, BaseDepartament departament)
+        {
+            this.id = NextID();
+            this.Name = name;
+            this.Surname = surname;
+            this.Position = position;
+            this.Departament = departament;
+        }
+        public BasePerson() { }
+
         /// <summary>
         /// Увеличиваем статичный ID
         /// </summary>
