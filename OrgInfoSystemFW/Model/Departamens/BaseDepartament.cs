@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using OrgInfoSystemFW.Model.Workers;
+using System.Net.Http.Headers;
 
 namespace OrgInfoSystemFW.Model.Departamens
 {
@@ -33,7 +34,15 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// <summary>
         /// Уникальный ID
         /// </summary>
-        public int Id => id;
+        public int Id
+        { 
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged("");
+            }
+        }
 
         protected int parentId;
         /// <summary>
@@ -71,11 +80,14 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// </summary>
         /// <param name="title">Наименование департамента</param>
         /// <param name="parentId">Родительский департамент</param>
-        public BaseDepartament(string title, int parentId = 0)
+        public BaseDepartament(string title, int parentId, int id = -1)
         {
-            this.Title = title;
-            this.id = NextID();
-            this.ParentId = parentId;
+            //if (id == -1) this.Id = NextID();
+            //else this.Id = NextID();
+            Id = (id == -1) ? NextID() : id;
+
+            Title = title;
+            ParentId = parentId;
             Employees = new ObservableCollection<BasePerson>();
         }
 
@@ -95,13 +107,37 @@ namespace OrgInfoSystemFW.Model.Departamens
             dic.Add("King", 0);
             foreach (var w in Employees)
             {
-                if (w is Intern) dic["Intern"]++;
-                if (w is Worker) dic["Worker"]++;
-                if (w is DepartmentHead) dic["DepartmentHead"]++;
-                if (w is MidDirector) dic["MidDirector"]++;
-                if (w is LowDirector) dic["LowDirector"]++;
-                if (w is TopDirector) dic["TopDirector"]++;
-                if (w is King) dic["King"]++;
+                switch (w)
+                {
+                    case Worker _:
+                        dic["Worker"]++;
+                        break;
+                    case Intern _:
+                        dic["Intern"]++;
+                        break;
+                    case DepartmentHead _:
+                        dic["DepartmentHead"]++;
+                        break;
+                    case King _:
+                        dic["King"]++;
+                        break;
+                    case TopDirector _:
+                        dic["TopDirector"]++;
+                        break;
+                    case MidDirector _:
+                        dic["MidDirector"]++;
+                        break;
+                    case LowDirector _:
+                        dic["LowDirector"]++;
+                        break;
+                }
+                //if (w.GetType() == typeof(Intern)) dic["Intern"]++;
+                //if (w.GetType() == typeof(Worker)) dic["Worker"]++;
+                //if (w.GetType() == typeof(DepartmentHead)) dic["DepartmentHead"]++;
+                //if (w.GetType() == typeof(MidDirector)) dic["MidDirector"]++;
+                //if (w.GetType() == typeof(LowDirector)) dic["LowDirector"]++;
+                //if (w.GetType() == typeof(TopDirector)) dic["TopDirector"]++;
+                //if (w.GetType() == typeof(King)) dic["King"]++;
             }
             return dic;
         }

@@ -15,12 +15,20 @@ namespace OrgInfoSystemFW.Model.Workers
         /// <summary>
         /// Класс
         /// </summary>
-        public string Class { get; set; }
+        public string Class => this.GetType().Name;
         /// <summary>
         /// Уникальный ID
         /// </summary>
         int id;
-        public int Id => id;
+        public int Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged("");
+            }
+        }
         /// <summary>
         /// Имя
         /// </summary>
@@ -123,9 +131,11 @@ namespace OrgInfoSystemFW.Model.Workers
         {
             globalId = 1;
         }
-        public BasePerson(string name, string surname, string position, BaseDepartament departament)
+        public BasePerson(string name, string surname, string position, BaseDepartament departament, int id = -1)
         {
-            this.id = NextID();
+            if (id == -1)
+                this.id = NextID();
+            else this.Id = id;
             this.Name = name;
             this.Surname = surname;
             this.Position = position;

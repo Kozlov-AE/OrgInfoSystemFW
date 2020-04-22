@@ -17,12 +17,13 @@ namespace OrgInfoSystemFW.Model.Workers
         public static JObject GetJObjectPerson(BasePerson person)
         {
             JObject result = new JObject();
+            result["Id"] = person.Id;
             result["Class"] = person.Class;
             result["Name"] = person.Name;
             result["Surname"] = person.Surname;
             result["Birthday"] = person.Birthday.Date.ToShortDateString();
             result["Address"] = person.Address;
-            result["Departament"] = person.Departament.Title;
+            result["Departament"] = person.Departament.Id;
             result["Position"] = person.Position;
 
             //Заполняем различающиеся поля
@@ -49,6 +50,7 @@ namespace OrgInfoSystemFW.Model.Workers
         public static BasePerson DeserializePersonFromJSON(JToken jToken)
         {
             string cls = jToken["Class"].ToString();
+            int id = int.Parse(jToken["Id"].ToString());
             string name = jToken["Name"].ToString();
             string surname = jToken["Surname"].ToString();
             string birthday = jToken["Birthday"].ToString();
@@ -59,7 +61,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "Intern":
                     return new Intern()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -70,7 +72,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "Worker":
                     return new Worker()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -82,7 +84,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "DepartmentHead":
                     return new DepartmentHead()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -94,7 +96,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "LowDirector":
                     return new LowDirector()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -106,7 +108,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "MidDirector":
                     return new MidDirector()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -118,7 +120,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "TopDirector":
                     return new TopDirector()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -130,7 +132,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 case "King":
                     return new King()
                     {
-                        Class = cls,
+                        Id = id,
                         Name = name,
                         Surname = surname,
                         Birthday = DateTime.Parse(birthday),
@@ -157,6 +159,7 @@ namespace OrgInfoSystemFW.Model.Workers
         public static JObject GetJObjectDepartament(BaseDepartament departament)
         {
             JObject result = new JObject();
+            result["Id"] = departament.Id;
             result["ParentId"] = departament.ParentId;
             result["Title"] = departament.Title;
             //Заполняем различающиеся поля
@@ -182,12 +185,14 @@ namespace OrgInfoSystemFW.Model.Workers
         /// </summary>
         public static BaseDepartament DeserializeDepartamentFromJSON(JToken jToken)
         {
+            int id = int.Parse(jToken["Id"].ToString());
             string cls = jToken["Class"].ToString();
             string title = jToken["Title"].ToString();
             switch (cls)
             {
                 case "Departament":
                     var d = new Departament();
+                    d.Id = id;
                     d.Title = title;
                     d.Employees = new ObservableCollection<BasePerson>();
                     foreach (var e in jToken["Employees"].ToArray())
@@ -199,6 +204,7 @@ namespace OrgInfoSystemFW.Model.Workers
                     return d;
                 case "MainDeportament":
                     var md = new MainDeportament();
+                    md.Id = id;
                     md.Title = title;
                     md.BirthDay = DateTime.Parse(jToken["BirthDay"].ToString());
                     md.Address = jToken["Address"].ToString();
@@ -226,17 +232,18 @@ namespace OrgInfoSystemFW.Model.Workers
         public static JObject SerializeDepartamentWithSub(BaseDepartament departament)
         {
             JObject result = new JObject();
+            result["Id"] = departament.Id;
             result["Class"] = departament.GetType().Name;
             result["ParentId"] = departament.ParentId;
             result["Title"] = departament.Title;
             //Заполняем различающиеся поля
-            if (departament is MainDeportament)
+            if (departament.GetType() == typeof(MainDeportament))
             {
                 result["BirthDay"] = (departament as MainDeportament).BirthDay;
                 result["Address"] = (departament as MainDeportament).Address;
                 result["Class"] = "MainDeportament";
             }
-            if (departament is Departament)
+            if (departament.GetType() == typeof(Departament))
             {
                 result["Class"] = "Departament";
             }
@@ -262,11 +269,13 @@ namespace OrgInfoSystemFW.Model.Workers
         public static BaseDepartament DeserealizeDepartamentWithSub(JToken jToken)
         {
             string cls = jToken["Class"].ToString();
+            int id = int.Parse(jToken["Id"].ToString());
             string title = jToken["Title"].ToString();
             switch (cls)
             {
                 case "Departament":
                     var d = new Departament();
+                    d.Id = id;
                     d.Title = title;
                     d.Employees = new ObservableCollection<BasePerson>();
                     //d.SubDepartaments.Add(DeserializeDepartamentFromJSON(dep));
@@ -287,6 +296,7 @@ namespace OrgInfoSystemFW.Model.Workers
                     return d;
                 case "MainDeportament":
                     var md = new MainDeportament();
+                    md.Id = id;
                     md.Title = title;
                     md.BirthDay = DateTime.Parse(jToken["BirthDay"].ToString());
                     md.Address = jToken["Address"].ToString();

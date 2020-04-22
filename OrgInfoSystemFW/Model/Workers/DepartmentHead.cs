@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using OrgInfoSystemFW.Model.Departamens;
+using System.Security.Cryptography;
 
 namespace OrgInfoSystemFW.Model.Workers
 {
@@ -18,26 +19,7 @@ namespace OrgInfoSystemFW.Model.Workers
         {
         }
 
-        public override double SalaryPayment
-        {
-            get
-            {
-                var sal = GetAllDepSalaryes(0) * CoefSalary;
-                if (sal <= LowSalary && LowSalary != 0) sal = LowSalary;
-                return sal;
-            }
-        }
+        protected override double GetAllDepSalaryes() => Departament.Employees.Where(_ => _ is BaseSubordinates).Sum(_ => _.SalaryPayment);
 
-        protected override double GetAllDepSalaryes(double start)
-        {
-            double sal = 0;
-            foreach (var s in Departament.Employees)
-            {
-                if (s is BaseSubordinates)
-                    sal += (s as BaseSubordinates).SalaryPayment;
-            }
-                return sal;
-
-        }
     }
 }

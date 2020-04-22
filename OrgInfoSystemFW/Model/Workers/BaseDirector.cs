@@ -30,21 +30,13 @@ namespace OrgInfoSystemFW.Model.Workers
         /// <summary>
         /// Начисленная ЗП
         /// </summary>
-        public override double SalaryPayment
-        {
-            get
-            {
-                double sal = GetAllDepSalaryes(0) * CoefSalary;
-                if (sal < LowSalary) sal = LowSalary;
-                return sal;
-            }
-        }
+        public override double SalaryPayment => ((GetAllDepSalaryes() * CoefSalary) > LowSalary) ? (GetAllDepSalaryes() * CoefSalary) : LowSalary;
 
         /// <summary>
         /// Просчитывает ЗП сотрудников в подчиненных департаментах
         /// </summary>
         /// <param name="start">Начальная ЗП</param>
-        protected abstract double GetAllDepSalaryes(double start);
+        protected abstract double GetAllDepSalaryes();
 
         public BaseDirector() { }
         public BaseDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)

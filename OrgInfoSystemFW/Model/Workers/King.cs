@@ -20,15 +20,7 @@ namespace OrgInfoSystemFW.Model.Workers
         public King(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
-        public override double SalaryPayment
-        {
-            get
-            {
-                double sal = GetAllDepSalaryes(Departament, 0) * CoefSalary;
-                if (sal < LowSalary) sal = LowSalary;
-                return sal;
-            }
-        }
+        public override double SalaryPayment => ((GetAllDepSalaryes(Departament, 0) * CoefSalary) > LowSalary) ? (GetAllDepSalaryes(Departament, 0) * CoefSalary) : LowSalary;
 
         /// <summary>
         /// Просчитывает ЗП работяг в подчиненных департаментах

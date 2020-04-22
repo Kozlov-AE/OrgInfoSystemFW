@@ -60,8 +60,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\GeneratorCommands.cs" />
     <Compile Include="Model\Workers\JsonWorker.cs" />
+    <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="View\EditDepartament.xaml.cs">
+      <DependentUpon>EditDepartament.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EditMainDepartament.xaml.cs">
+      <DependentUpon>EditMainDepartament.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EmployeeInformation.xaml.cs">
+      <DependentUpon>EmployeeInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExtendedTreeView.cs" />
     <Compile Include="View\OrgInfo.xaml.cs">
       <DependentUpon>OrgInfo.xaml</DependentUpon>
     </Compile>
@@ -69,6 +81,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\EditDepartament.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditMainDepartament.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EmployeeInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\OrgInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
