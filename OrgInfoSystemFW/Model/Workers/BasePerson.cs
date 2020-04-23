@@ -11,7 +11,7 @@ namespace OrgInfoSystemFW.Model.Workers
 {
     public abstract class BasePerson : BaseINotify
     {
-        static int globalId;
+        public static int globalId;
         /// <summary>
         /// Класс
         /// </summary>

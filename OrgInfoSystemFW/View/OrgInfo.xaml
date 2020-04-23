@@ -34,6 +34,8 @@
             <MenuItem Header="Файл"/>
             <MenuItem Header="Департаменты">
                 <MenuItem Header="Редактировать" Command="{Binding Path=EDepartament}"/>
+                <MenuItem Header="Добавить" Command="{Binding Path=AddDepartament}"/>
+                <MenuItem Header="Удалить" Command="{Binding Path=RemDepartament}"/>
             </MenuItem>
             <MenuItem Header="Сотрудники"/>
         </Menu>
@@ -53,8 +55,8 @@
         </local:ExtendedTreeView>
         <!--Список сотрудников выбранного департамента-->
         <DataGrid Grid.Row="1" Grid.Column="2" CanUserAddRows="False" CanUserDeleteRows="False"
-                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                 AutoGenerateColumns="False" SelectedValue="{Binding XPath=SelectedEmployee, Mode=TwoWay}"
+                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionMode="Single"
+                 AutoGenerateColumns="False" SelectedValue="{Binding SelectedEmployee, Mode=TwoWay}"
                  ItemsSource="{Binding ElementName=DepartamensTree, Path=SelectedValue.Employees}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id, Mode=OneWay}"/>

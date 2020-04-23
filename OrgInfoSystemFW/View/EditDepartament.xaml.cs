@@ -20,17 +20,17 @@ namespace OrgInfoSystemFW.View
     /// </summary>
     public partial class EditDepartament : Window
     {
-        public string Txt { get; set; }
+        public string NewTitle { get; set; }
         public EditDepartament(string text)
         {
             InitializeComponent();
             TextBox.Text = text;
-            Txt = text;
+            NewTitle = text;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Txt = TextBox.Text;
+            NewTitle = TextBox.Text;
             this.DialogResult = true;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using OrgInfoSystemFW.Model.Workers;
+using OrgInfoSystemFW.View;
 using OrgInfoSystemFW.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace OrgInfoSystemFW
 {
@@ -18,14 +20,21 @@ namespace OrgInfoSystemFW
     public partial class App : Application
     {
         MainVM mv;
-        View.OrgInfo oi;
+        OrgInfo oi;
+        EmployeeInformation emplInfo;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            oi = new View.OrgInfo();
             mv = new MainVM();
+
+            oi = new OrgInfo();
             oi.DataContext = mv;
             oi.Show();
+
+            emplInfo = new EmployeeInformation();
+            emplInfo.Owner = oi;
+            emplInfo.DataContext = mv;
+            emplInfo.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)

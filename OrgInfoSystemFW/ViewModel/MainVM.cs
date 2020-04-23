@@ -21,7 +21,6 @@ namespace OrgInfoSystemFW.ViewModel
         public ObservableCollection<BaseDepartament> Deps { get; set; }
         public MainDeportament Md { get; set; }
 
-
         public BaseDepartament SelectedDepartament { get; set; }
         public BasePerson SelectedEmployee { get; set; }
 
@@ -34,8 +33,41 @@ namespace OrgInfoSystemFW.ViewModel
             Md = JsonWorker.DeserealizeDepartamentWithSub(md) as MainDeportament;
 
             Deps = new ObservableCollection<BaseDepartament>() { Md };
+            GetLastIds(Md);
             Console.WriteLine("111");
         }
+
+        #region Методы возвращающие последниq ID после десериализации
+        /// <summary>
+        /// Присваивает глобальным статическим переменным последние ID (потребуется для создания новых экземпляров)
+        /// </summary>
+        /// <param name="md">Департамент самого высокого уровня</param>
+        static void GetLastIds(BaseDepartament md)
+        {
+                if (md.Id >= BaseDepartament.globalId) BaseDepartament.globalId = md.Id;
+                var eid = BiggerEmplId(md);
+                if (eid > BasePerson.globalId) BasePerson.globalId = eid;
+            foreach (var i in md.SubDepartaments)
+            {
+                GetLastIds(i);
+            }
+        }
+        /// <summary>
+        /// Возвращает наибольший ID сотрудника депратамента
+        /// </summary>
+        /// <param name="dep">Департамент</param>
+        /// <returns></returns>
+        static int BiggerEmplId(BaseDepartament dep)
+        {
+            int result = 0;
+            foreach (var e in dep.Employees)
+            {
+                if (e.Id > result) result = e.Id;
+            }
+            return result;
+        }
+        #endregion
+
 
         RelayCommand eDepartament;
         /// <summary>
@@ -54,7 +86,7 @@ namespace OrgInfoSystemFW.ViewModel
                           EditDepartament ed = new EditDepartament(d.Title);
                           if (ed.ShowDialog() == true)
                           {
-                            d.Title = ed.Txt;
+                            d.Title = ed.NewTitle;
                           }
                       }
                       else
@@ -69,6 +101,42 @@ namespace OrgInfoSystemFW.ViewModel
                           }
                       }
                   }, _=> SelectedDepartament != null));
+            }
+        }
+
+        RelayCommand addDepartament;
+        /// <summary>
+        /// Редактировать выделенный депатамент
+        /// </summary>
+        public RelayCommand AddDepartament
+        {
+            get
+            {
+                return addDepartament ??
+                  (addDepartament = new RelayCommand(_ =>
+                  {
+                      EditDepartament nd = new EditDepartament("Новый департамент");
+                      if (nd.ShowDialog() == true)
+                      {
+                          SelectedDepartament.AddSubDepartament(nd.NewTitle);
+                      }
+                  }, _ => SelectedDepartament != null));
+            }
+        }
+
+        RelayCommand remDepartament;
+        /// <summary>
+        /// Редактировать выделенный депатамент
+        /// </summary>
+        public RelayCommand RemDepartament
+        {
+            get
+            {
+                return remDepartament ??
+                  (remDepartament = new RelayCommand(_ =>
+                  {
+                      Md.Remove(SelectedDepartament.Id);
+                  }, _ => SelectedDepartament != null));
             }
         }
 

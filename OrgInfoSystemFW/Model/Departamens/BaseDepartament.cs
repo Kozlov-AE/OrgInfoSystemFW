@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using OrgInfoSystemFW.Model.Workers;
 using System.Net.Http.Headers;
+using OrgInfoSystemFW.View;
+using System.Deployment.Internal;
 
 namespace OrgInfoSystemFW.Model.Departamens
 {
     public abstract class BaseDepartament : BaseINotify
     {
+        static MainDeportament Md;
+
         protected string title;
         /// <summary>
         /// Наименование
@@ -28,7 +32,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// <summary>
         /// Статичный ID, уникальный
         /// </summary>
-        static int globalId;
+        public static int globalId;
 
         protected int id;
         /// <summary>
@@ -89,6 +93,7 @@ namespace OrgInfoSystemFW.Model.Departamens
             Title = title;
             ParentId = parentId;
             Employees = new ObservableCollection<BasePerson>();
+            SubDepartaments = new ObservableCollection<BaseDepartament>();
         }
 
         /// <summary>
@@ -131,13 +136,6 @@ namespace OrgInfoSystemFW.Model.Departamens
                         dic["LowDirector"]++;
                         break;
                 }
-                //if (w.GetType() == typeof(Intern)) dic["Intern"]++;
-                //if (w.GetType() == typeof(Worker)) dic["Worker"]++;
-                //if (w.GetType() == typeof(DepartmentHead)) dic["DepartmentHead"]++;
-                //if (w.GetType() == typeof(MidDirector)) dic["MidDirector"]++;
-                //if (w.GetType() == typeof(LowDirector)) dic["LowDirector"]++;
-                //if (w.GetType() == typeof(TopDirector)) dic["TopDirector"]++;
-                //if (w.GetType() == typeof(King)) dic["King"]++;
             }
             return dic;
         }
@@ -151,5 +149,28 @@ namespace OrgInfoSystemFW.Model.Departamens
             return globalId;
         }
 
+        /// <summary>
+        /// Добавить дочерний департамент
+        /// </summary>
+        public void AddSubDepartament(string title)
+        {
+            SubDepartaments.Add(new Departament(title, Id));
+        }
+
+        /// <summary>
+        /// Удаляет дочерний департамент по известному ID
+        /// </summary>
+        public void Remove(int id)
+        {
+            foreach (var d in SubDepartaments)
+            {
+                if (d.Id == id)
+                {
+                    SubDepartaments.Remove(d);
+                    return;
+                }
+                else d.Remove(id);
+            }
+        }
     }
 }

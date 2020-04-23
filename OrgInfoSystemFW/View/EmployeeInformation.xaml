@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrgInfoSystemFW.View"
         mc:Ignorable="d"
-        Title="EmployeeInformation" Height="450" Width="800">
+        Title="EmployeeInformation" Height="537" MinWidth="200" Width="439">
     <DockPanel>
         <Grid DockPanel.Dock="Top" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -16,18 +16,33 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Имя" Grid.Row="0" Grid.Column="0"
+            <TextBlock Text="{Binding SelectedEmployee.Name}" Grid.Row="0" Grid.Column="0"
                        VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
             <TextBlock Text="Фамилия" Grid.Row="1" Grid.Column="0"
                        VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
             <TextBlock Text="Дата рождения" Grid.Row="2" Grid.Column="0"
                        VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
-            <TextBox x:Name="TitleTB" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+            <TextBlock Text="Возраст" Grid.Row="3" Grid.Column="0"
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+            <TextBlock Text="Адрес проживания" Grid.Row="4" Grid.Column="0"
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+            <TextBlock Text="Должность" Grid.Row="5" Grid.Column="0"
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+            <TextBox x:Name="NameTB" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
-            <TextBox x:Name="AddressTB" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+            <TextBox x:Name="SurnameTB" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
             <TextBox x:Name="BirthDayTB" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5" MinWidth="200"/>
+            <TextBox x:Name="AgeTB" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5" MinWidth="200"/>
+            <TextBox x:Name="AddressTB" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5" MinWidth="200"/>
+            <TextBox x:Name="PositionTB" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
         </Grid>
     </DockPanel>
