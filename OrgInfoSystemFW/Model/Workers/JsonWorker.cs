@@ -42,6 +42,7 @@ namespace OrgInfoSystemFW.Model.Workers
             }
             return result;
         }
+
         /// <summary>
         /// Извлекаем работника из JToken
         /// </summary>
@@ -180,6 +181,7 @@ namespace OrgInfoSystemFW.Model.Workers
             result["Employees"] = employees;
             return result;
         }
+
         /// <summary>
         /// извлекает Департамент с сотрудниками из JToken
         /// </summary>
@@ -265,7 +267,9 @@ namespace OrgInfoSystemFW.Model.Workers
             return result;
         }
 
-
+        /// <summary>
+        /// Извлекает департамент включая вложенные департаменты с сотрудниками
+        /// </summary>
         public static BaseDepartament DeserealizeDepartamentWithSub(JToken jToken)
         {
             string cls = jToken["Class"].ToString();
@@ -293,6 +297,7 @@ namespace OrgInfoSystemFW.Model.Workers
                             d.SubDepartaments.Add(DeserealizeDepartamentWithSub(dep));
                         }
                     }
+                    GetLastIds(d);
                     return d;
                 case "MainDeportament":
                     var md = new MainDeportament();
@@ -316,6 +321,7 @@ namespace OrgInfoSystemFW.Model.Workers
                             md.SubDepartaments.Add(DeserealizeDepartamentWithSub(dep));
                         }
                     }
+                    GetLastIds(md);
                     return md;
                 default:
                     return new Departament()
@@ -325,7 +331,39 @@ namespace OrgInfoSystemFW.Model.Workers
                     };
             }
 
+
         }
+
+        #region Методы возвращающие последниq ID после десериализации
+        /// <summary>
+        /// Присваивает глобальным статическим переменным последние ID (потребуется для создания новых экземпляров)
+        /// </summary>
+        /// <param name="md">Департамент самого высокого уровня</param>
+        static void GetLastIds(BaseDepartament md)
+        {
+            if (md.Id >= BaseDepartament.globalId) BaseDepartament.globalId = md.Id;
+            var eid = BiggerEmplId(md);
+            if (eid > BasePerson.globalId) BasePerson.globalId = eid;
+            foreach (var i in md.SubDepartaments)
+            {
+                GetLastIds(i);
+            }
+        }
+        /// <summary>
+        /// Возвращает наибольший ID сотрудника депратамента
+        /// </summary>
+        /// <param name="dep">Департамент</param>
+        /// <returns></returns>
+        static int BiggerEmplId(BaseDepartament dep)
+        {
+            int result = 0;
+            foreach (var e in dep.Employees)
+            {
+                if (e.Id > result) result = e.Id;
+            }
+            return result;
+        }
+        #endregion
 
 
     }

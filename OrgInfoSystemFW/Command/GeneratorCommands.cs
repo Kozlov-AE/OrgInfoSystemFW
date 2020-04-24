@@ -11,7 +11,7 @@ namespace OrgInfoSystemFW.Command
 {
     public class GeneratorCommands
     {
-        #region Генерация данных без привязки к ID, всё в одной коллекции.
+        #region Генерация данных
         public MainDeportament MainGeneratorV1()
         {
             Random rnd = new Random(Guid.NewGuid().GetHashCode());
@@ -179,7 +179,11 @@ namespace OrgInfoSystemFW.Command
             return workers;
         }
 
+
         #endregion
+
+
+
 
         /// <summary>
         /// генератор случайной даты в диапазоне дат

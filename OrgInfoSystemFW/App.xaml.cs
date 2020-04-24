@@ -21,7 +21,6 @@ namespace OrgInfoSystemFW
     {
         MainVM mv;
         OrgInfo oi;
-        EmployeeInformation emplInfo;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -30,17 +29,12 @@ namespace OrgInfoSystemFW
             oi = new OrgInfo();
             oi.DataContext = mv;
             oi.Show();
-
-            emplInfo = new EmployeeInformation();
-            emplInfo.Owner = oi;
-            emplInfo.DataContext = mv;
-            emplInfo.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            File.WriteAllText("DB.json", JsonWorker.SerializeDepartamentWithSub(mv.Md).ToString());
+            File.WriteAllText("DB.json", JsonWorker.SerializeDepartamentWithSub(mv.Deps[0]).ToString());
         }
     }
 }

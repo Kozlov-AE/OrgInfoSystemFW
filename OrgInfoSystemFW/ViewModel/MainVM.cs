@@ -19,22 +19,21 @@ namespace OrgInfoSystemFW.ViewModel
     public class MainVM : INotifyPropertyChanged
     {
         public ObservableCollection<BaseDepartament> Deps { get; set; }
-        public MainDeportament Md { get; set; }
+        //public MainDeportament Md { get; set; }
 
         public BaseDepartament SelectedDepartament { get; set; }
         public BasePerson SelectedEmployee { get; set; }
 
         public MainVM()
         {
-            //Md = new GeneratorCommands().MainGeneratorV1();
+            //Md = File.Exists("DB.json") ? JsonWorker.DeserealizeDepartamentWithSub(JToken.Parse(File.ReadAllText("DB.json"))) as MainDeportament :
+            //new GeneratorCommands().MainGeneratorV1();
 
-            string json = File.ReadAllText("DB.json");
-            var md = JToken.Parse(json);
-            Md = JsonWorker.DeserealizeDepartamentWithSub(md) as MainDeportament;
-
-            Deps = new ObservableCollection<BaseDepartament>() { Md };
-            GetLastIds(Md);
-            Console.WriteLine("111");
+            Deps = new ObservableCollection<BaseDepartament>() 
+            { 
+                File.Exists("DB.json") ? JsonWorker.DeserealizeDepartamentWithSub(JToken.Parse(File.ReadAllText("DB.json"))) as MainDeportament :
+                new GeneratorCommands().MainGeneratorV1()
+            };
         }
 
         #region Методы возвращающие последниq ID после десериализации
@@ -135,11 +134,26 @@ namespace OrgInfoSystemFW.ViewModel
                 return remDepartament ??
                   (remDepartament = new RelayCommand(_ =>
                   {
-                      Md.Remove(SelectedDepartament.Id);
+                      Deps[0].Remove(SelectedDepartament.Id);
                   }, _ => SelectedDepartament != null));
             }
         }
 
+        RelayCommand generate;
+        /// <summary>
+        /// генерировать новую структуру
+        /// </summary>
+        public RelayCommand Generate
+        {
+            get
+            {
+                return generate ??
+                  (generate = new RelayCommand(_ =>
+                  {
+                      Deps[0] = new GeneratorCommands().MainGeneratorV1();
+                  }));
+            }
+        }
 
 
         #region INotifyPropertyChanged
