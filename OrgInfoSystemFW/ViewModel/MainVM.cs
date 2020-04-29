@@ -19,16 +19,13 @@ namespace OrgInfoSystemFW.ViewModel
     public class MainVM : INotifyPropertyChanged
     {
         public ObservableCollection<BaseDepartament> Deps { get; set; }
-        //public MainDeportament Md { get; set; }
 
         public BaseDepartament SelectedDepartament { get; set; }
+        public bool IsSelectedDepartament { get; set; }
         public BasePerson SelectedEmployee { get; set; }
 
         public MainVM()
         {
-            //Md = File.Exists("DB.json") ? JsonWorker.DeserealizeDepartamentWithSub(JToken.Parse(File.ReadAllText("DB.json"))) as MainDeportament :
-            //new GeneratorCommands().MainGeneratorV1();
-
             Deps = new ObservableCollection<BaseDepartament>() 
             { 
                 File.Exists("DB.json") ? JsonWorker.DeserealizeDepartamentWithSub(JToken.Parse(File.ReadAllText("DB.json"))) as MainDeportament :
@@ -36,109 +33,274 @@ namespace OrgInfoSystemFW.ViewModel
             };
         }
 
-        #region Методы возвращающие последниq ID после десериализации
-        /// <summary>
-        /// Присваивает глобальным статическим переменным последние ID (потребуется для создания новых экземпляров)
-        /// </summary>
-        /// <param name="md">Департамент самого высокого уровня</param>
-        static void GetLastIds(BaseDepartament md)
-        {
-                if (md.Id >= BaseDepartament.globalId) BaseDepartament.globalId = md.Id;
-                var eid = BiggerEmplId(md);
-                if (eid > BasePerson.globalId) BasePerson.globalId = eid;
-            foreach (var i in md.SubDepartaments)
+        #region Меню Департаент
+            RelayCommand eDepartament;
+            /// <summary>
+            /// Редактировать выделенный депатамент
+            /// </summary>
+            public RelayCommand EDepartament
             {
-                GetLastIds(i);
+                get
+                {
+                    return eDepartament ??
+                      (eDepartament = new RelayCommand(obj =>
+                      {
+                          if (SelectedDepartament.GetType() == typeof(Departament))
+                          {
+                              Departament d = SelectedDepartament as Departament;
+                              EditDepartament ed = new EditDepartament(d.Title);
+                              if (ed.ShowDialog() == true)
+                              {
+                                d.Title = ed.NewTitle;
+                              }
+                          }
+                          else
+                          {
+                              MainDeportament md = SelectedDepartament as MainDeportament;
+                              EditMainDepartament emd = new EditMainDepartament(md);
+                              if (emd.ShowDialog() == true)
+                              {
+                                  md.Title = emd.Titl;
+                                  md.Address = emd.Addr;
+                                  md.BirthDay = emd.Birthday;
+                              }
+                          }
+                      }, _=> SelectedDepartament != null));
+                }
             }
-        }
-        /// <summary>
-        /// Возвращает наибольший ID сотрудника депратамента
-        /// </summary>
-        /// <param name="dep">Департамент</param>
-        /// <returns></returns>
-        static int BiggerEmplId(BaseDepartament dep)
-        {
-            int result = 0;
-            foreach (var e in dep.Employees)
+
+            RelayCommand addDepartament;
+            /// <summary>
+            /// Редактировать выделенный депатамент
+            /// </summary>
+            public RelayCommand AddDepartament
             {
-                if (e.Id > result) result = e.Id;
+                get
+                {
+                    return addDepartament ??
+                      (addDepartament = new RelayCommand(_ =>
+                      {
+                          EditDepartament nd = new EditDepartament("Новый департамент");
+                          if (nd.ShowDialog() == true)
+                          {
+                              SelectedDepartament.AddSubDepartament(nd.NewTitle);
+                          }
+                      }, _ => SelectedDepartament != null));
+                }
             }
-            return result;
-        }
+
+            RelayCommand remDepartament;
+            /// <summary>
+            /// Редактировать выделенный депатамент
+            /// </summary>
+            public RelayCommand RemDepartament
+            {
+                get
+                {
+                    return remDepartament ??
+                      (remDepartament = new RelayCommand(_ =>
+                      {
+                          Deps[0].Remove(SelectedDepartament.Id);
+                      }, _ => SelectedDepartament != null));
+                }
+            }
         #endregion
 
-
-        RelayCommand eDepartament;
+        #region Меню Сотрудники
+        RelayCommand addIntern;
         /// <summary>
-        /// Редактировать выделенный депатамент
+        /// Новый интерн
         /// </summary>
-        public RelayCommand EDepartament
+        public RelayCommand AddIntern
         {
             get
             {
-                return eDepartament ??
-                  (eDepartament = new RelayCommand(obj =>
+                return addIntern ??
+                  (addIntern = new RelayCommand(o =>
                   {
-                      if (SelectedDepartament.GetType() == typeof(Departament))
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
                       {
-                          Departament d = SelectedDepartament as Departament;
-                          EditDepartament ed = new EditDepartament(d.Title);
-                          if (ed.ShowDialog() == true)
+                          InernView iv = new InernView(dep);
+                          iv.Title = "Новый интерн";
+                          iv.ShowDialog();
+                            if (iv.DialogResult == true)
                           {
-                            d.Title = ed.NewTitle;
+                              Intern i = iv.Intern;
+                              dep.Employees.Add(i);
                           }
                       }
-                      else
+                  }));
+            }
+        }
+
+        RelayCommand addWorker;
+        /// <summary>
+        /// Новый Работник
+        /// </summary>
+        public RelayCommand AddWorker
+        {
+            get
+            {
+                return addWorker ??
+                  (addWorker = new RelayCommand(o =>
+                  {
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
                       {
-                          MainDeportament md = SelectedDepartament as MainDeportament;
-                          EditMainDepartament emd = new EditMainDepartament(md);
-                          if (emd.ShowDialog() == true)
+                          WorkerView wv = new WorkerView(dep);
+                          wv.Title = "Новый работник";
+                          wv.ShowDialog();
+                          if (wv.DialogResult == true)
                           {
-                              md.Title = emd.Titl;
-                              md.Address = emd.Addr;
-                              md.BirthDay = emd.Birthday;
+                              Worker w = wv.Worker;
+                              //w.Departament = dep;
+                              dep.Employees.Add(w);
                           }
                       }
-                  }, _=> SelectedDepartament != null));
+                  }));
             }
         }
 
-        RelayCommand addDepartament;
+        RelayCommand addDepartamentHead;
         /// <summary>
-        /// Редактировать выделенный депатамент
+        /// Новый руководитель департамента
         /// </summary>
-        public RelayCommand AddDepartament
+        public RelayCommand AddDepartamentHead
         {
             get
             {
-                return addDepartament ??
-                  (addDepartament = new RelayCommand(_ =>
+                return addDepartamentHead ??
+                  (addDepartamentHead = new RelayCommand(o =>
                   {
-                      EditDepartament nd = new EditDepartament("Новый департамент");
-                      if (nd.ShowDialog() == true)
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
                       {
-                          SelectedDepartament.AddSubDepartament(nd.NewTitle);
+                          DirectorView dir = new DirectorView(dep);
+                          dir.Title = "Новый руководитель департамента";
+                          dir.ShowDialog();
+                          if (dir.DialogResult == true)
+                          {
+                              DepartmentHead dh = dir.Director as DepartmentHead;
+                              dep.Employees.Add(dh);
+                          }
                       }
-                  }, _ => SelectedDepartament != null));
+                  }));
             }
         }
 
-        RelayCommand remDepartament;
+        RelayCommand addLowDirector;
         /// <summary>
-        /// Редактировать выделенный депатамент
+        /// Новый Руководитель ветки департаментов
         /// </summary>
-        public RelayCommand RemDepartament
+        public RelayCommand AddLowDirector
         {
             get
             {
-                return remDepartament ??
-                  (remDepartament = new RelayCommand(_ =>
+                return addLowDirector ??
+                  (addLowDirector = new RelayCommand(o =>
                   {
-                      Deps[0].Remove(SelectedDepartament.Id);
-                  }, _ => SelectedDepartament != null));
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
+                      {
+                          DirectorView dir = new DirectorView(dep);
+                          dir.Title = "Новый руководитель ветки департаментов";
+                          dir.ShowDialog();
+                          if (dir.DialogResult == true)
+                          {
+                              LowDirector dh = dir.Director as LowDirector;
+                              dep.Employees.Add(dh);
+                          }
+                      }
+                  }));
             }
         }
 
+        RelayCommand addMidDirector;
+        /// <summary>
+        /// Новый Руководитель сетки департаментов
+        /// </summary>
+        public RelayCommand AddMidDirector
+        {
+            get
+            {
+                return addMidDirector ??
+                  (addMidDirector = new RelayCommand(o =>
+                  {
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
+                      {
+                          DirectorView dir = new DirectorView(dep);
+                          dir.Title = "Новый руководитель сектора департаменов";
+                          dir.ShowDialog();
+                          if (dir.DialogResult == true)
+                          {
+                              MidDirector dh = dir.Director as MidDirector;
+                              dep.Employees.Add(dh);
+                          }
+                      }
+                  }));
+            }
+        }
+
+        RelayCommand addTopDirector;
+        /// <summary>
+        /// Новый головной директор
+        /// </summary>
+        public RelayCommand AddTopDirector
+        {
+            get
+            {
+                return addTopDirector ??
+                  (addTopDirector = new RelayCommand(o =>
+                  {
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
+                      {
+                          DirectorView dir = new DirectorView(dep);
+                          dir.Title = "Новый Топ директор";
+                          dir.ShowDialog();
+                          if (dir.DialogResult == true)
+                          {
+                              TopDirector dh = dir.Director as TopDirector;
+                              dep.Employees.Add(dh);
+                          }
+                      }
+                  }));
+            }
+        }
+
+        RelayCommand addKing;
+        /// <summary>
+        /// Новый генеральный директор
+        /// </summary>
+        public RelayCommand AddKing
+        {
+            get
+            {
+                return addKing ??
+                  (addKing = new RelayCommand(o =>
+                  {
+                      BaseDepartament dep = o as BaseDepartament;
+                      if (dep != null)
+                      {
+                          DirectorView dir = new DirectorView(dep);
+                          dir.Title = "Новый генеральный директор";
+                          dir.ShowDialog();
+                          if (dir.DialogResult == true)
+                          {
+                              King dh = dir.Director as King;
+                              dep.Employees.Add(dh);
+                          }
+                      }
+                  }));
+            }
+        }
+
+
+        #endregion
+
+        #region Меню Файл
         RelayCommand generate;
         /// <summary>
         /// генерировать новую структуру
@@ -154,6 +316,7 @@ namespace OrgInfoSystemFW.ViewModel
                   }));
             }
         }
+        #endregion
 
 
         #region INotifyPropertyChanged

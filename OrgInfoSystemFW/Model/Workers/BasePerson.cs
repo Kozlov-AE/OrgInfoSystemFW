@@ -142,7 +142,6 @@ namespace OrgInfoSystemFW.Model.Workers
             this.Departament = departament;
         }
         public BasePerson() { }
-
         /// <summary>
         /// Увеличиваем статичный ID
         /// </summary>
@@ -152,5 +151,28 @@ namespace OrgInfoSystemFW.Model.Workers
             globalId++;
             return globalId;
         }
+
+
+        #region Методы взаимодействия с департаментами
+        /*
+         * Устроить человека на работу
+         * Уволить сотрудника
+         * Повысить сотрудника
+         */
+        /// <summary>
+        /// Добавить сотрудника в департамент
+        /// </summary>
+        public void AddToDepartament (BaseDepartament departament)
+        {
+            this.departament = departament;
+            departament.Employees.Add(this);
+        }
+
+        public void Remove(BaseDepartament departament, BaseDepartament archive)
+        {
+            archive.Employees.Add(this);
+            departament.Employees.Remove(this);
+        }
+        #endregion
     }
 }

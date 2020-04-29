@@ -86,8 +86,6 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// <param name="parentId">Родительский департамент</param>
         public BaseDepartament(string title, int parentId, int id = -1)
         {
-            //if (id == -1) this.Id = NextID();
-            //else this.Id = NextID();
             Id = (id == -1) ? NextID() : id;
 
             Title = title;
@@ -97,7 +95,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         }
 
         /// <summary>
-        /// Получаем количества работников
+        /// Получаем частотный массив по должностям работников
         /// </summary>
         /// <returns>Словарь с количествами работников определенных должностей</returns>
         public Dictionary <string, int> GetCountWorkers()
@@ -149,28 +147,29 @@ namespace OrgInfoSystemFW.Model.Departamens
             return globalId;
         }
 
-        /// <summary>
-        /// Добавить дочерний департамент
-        /// </summary>
-        public void AddSubDepartament(string title)
-        {
-            SubDepartaments.Add(new Departament(title, Id));
-        }
-
-        /// <summary>
-        /// Удаляет дочерний департамент по известному ID
-        /// </summary>
-        public void Remove(int id)
-        {
-            foreach (var d in SubDepartaments)
+        #region Добавить/Удалить департамент
+            /// <summary>
+            /// Добавить дочерний департамент
+            /// </summary>
+            public void AddSubDepartament(string title)
             {
-                if (d.Id == id)
-                {
-                    SubDepartaments.Remove(d);
-                    return;
-                }
-                else d.Remove(id);
+                SubDepartaments.Add(new Departament(title, Id));
             }
-        }
+            /// <summary>
+            /// Удаляет дочерний департамент по известному ID
+            /// </summary>
+            public void Remove(int id)
+            {
+                foreach (var d in SubDepartaments)
+                {
+                    if (d.Id == id)
+                    {
+                        SubDepartaments.Remove(d);
+                        return;
+                    }
+                    else d.Remove(id);
+                }
+            }
+        #endregion
     }
 }

@@ -64,6 +64,10 @@
     <Compile Include="Model\Workers\JsonWorker.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
+    <Compile Include="View\Converter\MultiConverter.cs" />
+    <Compile Include="View\DirectorView.xaml.cs">
+      <DependentUpon>DirectorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EditDepartament.xaml.cs">
       <DependentUpon>EditDepartament.xaml</DependentUpon>
     </Compile>
@@ -74,6 +78,9 @@
       <DependentUpon>EmployeeInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ExtendedTreeView.cs" />
+    <Compile Include="View\InernView.xaml.cs">
+      <DependentUpon>InernView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OrgInfo.xaml.cs">
       <DependentUpon>OrgInfo.xaml</DependentUpon>
     </Compile>
@@ -81,6 +88,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="View\WorkerView.xaml.cs">
+      <DependentUpon>WorkerView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\DirectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EditDepartament.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,7 +107,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\InernView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\OrgInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WorkerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

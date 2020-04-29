@@ -1,18 +1,27 @@
-﻿<Window x:Class="OrgInfoSystemFW.View.EmployeeInformation"
+﻿<Window x:Class="OrgInfoSystemFW.View.WorkerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrgInfoSystemFW.View"
         mc:Ignorable="d"
-        Title="EmployeeInformation" Height="537" MinWidth="200" Width="439">
+        Title="WorkerView" Height="450" Width="454">
     <DockPanel>
+        <!--Кнопки-->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="Ок" IsDefault="True" Height="25" Width="60" Margin="15,10" Click="Button_Click"/>
+            <Button Content="Отмена" IsCancel="True" Height="25" Width="60" Margin="15,10"/>
+        </StackPanel>
+
         <Grid DockPanel.Dock="Top" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
@@ -32,18 +41,29 @@
                        VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
             <TextBlock Text="Должность" Grid.Row="5" Grid.Column="0"
                        VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+            <TextBlock Text="Зарплата" Grid.Row="6" Grid.Column="0"
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+            <TextBlock Text="Отработано часов" Grid.Row="7" Grid.Column="0"
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+            
             <TextBox x:Name="NameTB" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
             <TextBox x:Name="SurnameTB" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
-            <TextBox x:Name="BirthDayTB" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+            <DatePicker x:Name="BirthDayTB" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
             <TextBox x:Name="AgeTB" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Margin="5" MinWidth="200"/>
+                    Margin="5" MinWidth="200" IsReadOnly="True"/>
             <TextBox x:Name="AddressTB" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
             <TextBox x:Name="PositionTB" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
+            <TextBox x:Name="SalaryTB" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5" MinWidth="200"/>
+            <TextBox x:Name="HourTB" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Margin="5" MinWidth="200"/>
+
         </Grid>
     </DockPanel>
+
 </Window>

@@ -39,7 +39,22 @@
                 <MenuItem Header="Добавить" Command="{Binding Path=AddDepartament}"/>
                 <MenuItem Header="Удалить" Command="{Binding Path=RemDepartament}"/>
             </MenuItem>
-            <MenuItem Header="Сотрудники"/>
+            <MenuItem Header="Сотрудники">
+                <MenuItem Header="Добавить интерна в департамент" Command="{Binding Path=AddIntern}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить работягу в департамент" Command="{Binding Path=AddWorker}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить руководителя департамента" Command="{Binding Path=AddDepartamentHead}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить руководителя ветки депатраментов" Command="{Binding Path=AddLowDirector}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить руководителя сетки департаментов" Command="{Binding Path=AddMidDirector}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить Директора совета директоров" Command="{Binding Path=AddTopDirector}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить Царя" Command="{Binding Path=Addking}" 
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+            </MenuItem>
         </Menu>
         <!--Дерево департаментов-->
         <local:ExtendedTreeView Grid.Row="1" Grid.Column="0" 
@@ -70,7 +85,5 @@
                 <DataGridTextColumn Header="ЗП" Binding="{Binding SalaryPayment, StringFormat={}{0:C}, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox Text="{Binding ElementName=DepartamensTree, Path=SelectedValue.Id}" Grid.Row="1" Grid.Column="2" Visibility="Collapsed"/>
-        
     </Grid>
 </Window>
