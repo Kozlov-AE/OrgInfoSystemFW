@@ -7,9 +7,6 @@
         xmlns:vm="clr-namespace:OrgInfoSystemFW.ViewModel"
         mc:Ignorable="d"
         Title="OrgInfo" Height="450" Width="800" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
-    <!--<Window.DataContext>
-        <vm:MainVM/>
-    </Window.DataContext>-->
     <!--Основное окно-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -40,19 +37,7 @@
                 <MenuItem Header="Удалить" Command="{Binding Path=RemDepartament}"/>
             </MenuItem>
             <MenuItem Header="Сотрудники">
-                <MenuItem Header="Добавить интерна в департамент" Command="{Binding Path=AddIntern}" 
-                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
-                <MenuItem Header="Добавить работягу в департамент" Command="{Binding Path=AddWorker}" 
-                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
-                <MenuItem Header="Добавить руководителя департамента" Command="{Binding Path=AddDepartamentHead}" 
-                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
-                <MenuItem Header="Добавить руководителя ветки депатраментов" Command="{Binding Path=AddLowDirector}" 
-                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
-                <MenuItem Header="Добавить руководителя сетки департаментов" Command="{Binding Path=AddMidDirector}" 
-                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
-                <MenuItem Header="Добавить Директора совета директоров" Command="{Binding Path=AddTopDirector}" 
-                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
-                <MenuItem Header="Добавить Царя" Command="{Binding Path=Addking}" 
+                <MenuItem Header="Добавить сотрудника в департамент" Command="{Binding Path=AddEmployee}" 
                           CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
             </MenuItem>
         </Menu>

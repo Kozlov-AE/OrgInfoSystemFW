@@ -107,28 +107,27 @@ namespace OrgInfoSystemFW.ViewModel
         #endregion
 
         #region Меню Сотрудники
-        RelayCommand addIntern;
+        RelayCommand addEmployee;
         /// <summary>
         /// Новый интерн
         /// </summary>
-        public RelayCommand AddIntern
+        public RelayCommand AddEmployee
         {
             get
             {
-                return addIntern ??
-                  (addIntern = new RelayCommand(o =>
+                return addEmployee ??
+                  (addEmployee = new RelayCommand(o =>
                   {
                       BaseDepartament dep = o as BaseDepartament;
                       if (dep != null)
                       {
-                          InernView iv = new InernView(dep);
-                          iv.Title = "Новый интерн";
-                          iv.ShowDialog();
-                            if (iv.DialogResult == true)
-                          {
-                              Intern i = iv.Intern;
-                              dep.Employees.Add(i);
-                          }
+                          View.Dialogs.EmloyeeDialog.EmployeeDialogView ed = new View.Dialogs.EmloyeeDialog.EmployeeDialogView();
+                          ed.Title = "Новый сотрудник";
+                          ed.ShowDialog();
+                            if (ed.DialogResult == true)
+                              {
+                                  dep.Employees.Add(ed.person);
+                              }
                       }
                   }));
             }

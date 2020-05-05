@@ -64,7 +64,18 @@
     <Compile Include="Model\Workers\JsonWorker.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
-    <Compile Include="View\Converter\MultiConverter.cs" />
+    <Compile Include="View\Dialogs\EmloyeeDialog\DirectorControl.xaml.cs">
+      <DependentUpon>DirectorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\EmloyeeDialog\EmployeeDialogView.xaml.cs">
+      <DependentUpon>EmployeeDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\EmloyeeDialog\InternControl.xaml.cs">
+      <DependentUpon>InternControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Dialogs\EmloyeeDialog\WorkerControl.xaml.cs">
+      <DependentUpon>WorkerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DirectorView.xaml.cs">
       <DependentUpon>DirectorView.xaml</DependentUpon>
     </Compile>
@@ -91,6 +102,22 @@
     <Compile Include="View\WorkerView.xaml.cs">
       <DependentUpon>WorkerView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\Dialogs\EmloyeeDialog\DirectorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\EmloyeeDialog\EmployeeDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\EmloyeeDialog\InternControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\EmloyeeDialog\WorkerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DirectorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -161,5 +188,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

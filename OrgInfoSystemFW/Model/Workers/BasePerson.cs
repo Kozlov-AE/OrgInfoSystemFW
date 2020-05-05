@@ -11,6 +11,7 @@ namespace OrgInfoSystemFW.Model.Workers
 {
     public abstract class BasePerson : BaseINotify
     {
+        static public Dictionary<string, Type> Classes;
         public static int globalId;
         /// <summary>
         /// Класс
@@ -130,6 +131,17 @@ namespace OrgInfoSystemFW.Model.Workers
         static BasePerson()
         {
             globalId = 1;
+            if (Classes == null)
+            {
+                Classes = new Dictionary<string,Type>();
+                Classes.Add("Интерн", typeof(Intern));
+                Classes.Add("Работник",typeof(Worker));
+                Classes.Add("Руководитель департамента",typeof(DepartmentHead));
+                Classes.Add("Руководитель ветки департаментов",typeof(LowDirector));
+                Classes.Add("Руководитель сетки департаементов",typeof(MidDirector));
+                Classes.Add("Руководитель сектора департаементов",typeof(TopDirector));
+                Classes.Add("Директор",typeof(King));
+            }
         }
         public BasePerson(string name, string surname, string position, BaseDepartament departament, int id = -1)
         {
@@ -152,13 +164,13 @@ namespace OrgInfoSystemFW.Model.Workers
             return globalId;
         }
 
+        //static public BasePerson CreateDialog(BaseDepartament departament)
+        //{
+            
+        //}
+
 
         #region Методы взаимодействия с департаментами
-        /*
-         * Устроить человека на работу
-         * Уволить сотрудника
-         * Повысить сотрудника
-         */
         /// <summary>
         /// Добавить сотрудника в департамент
         /// </summary>

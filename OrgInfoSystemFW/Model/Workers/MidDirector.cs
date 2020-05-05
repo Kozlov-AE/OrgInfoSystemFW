@@ -44,28 +44,6 @@ namespace OrgInfoSystemFW.Model.Workers
                             (d.GetCountWorkers()["MidDirector"] > 0) ?
                             (d.Employees.OfType<MidDirector>().Sum(_ => _.SalaryPayment)) :
                             (d.Employees.OfType<LowDirector>().Sum(_ => _.SalaryPayment));
-
-                
-                //if (d.SubDepartaments.Count == 0)
-                //    foreach (var e in d.Employees)
-                //    {
-                //        if (e is DepartmentHead) sal += e.SalaryPayment;
-                //    }
-
-                //if (d.GetCountWorkers()["MidDirector"] > 0)
-                //{
-                //    foreach (var e in d.Employees)
-                //    {
-                //        if (e is MidDirector) sal += e.SalaryPayment;
-                //    }
-                //}
-                //else
-                //{
-                //    foreach (var e in d.Employees)
-                //    {
-                //        if (e is LowDirector) sal += e.SalaryPayment;
-                //    }
-                //}
             }
             return sal;
         }
