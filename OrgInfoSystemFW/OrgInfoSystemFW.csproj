@@ -79,11 +79,8 @@
     <Compile Include="View\DirectorView.xaml.cs">
       <DependentUpon>DirectorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\EditDepartament.xaml.cs">
-      <DependentUpon>EditDepartament.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\EditMainDepartament.xaml.cs">
-      <DependentUpon>EditMainDepartament.xaml</DependentUpon>
+    <Compile Include="View\Dialogs\DepartamentDialog\DepartamentView.xaml.cs">
+      <DependentUpon>DepartamentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EmployeeInformation.xaml.cs">
       <DependentUpon>EmployeeInformation.xaml</DependentUpon>
@@ -122,11 +119,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EditDepartament.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\EditMainDepartament.xaml">
+    <Page Include="View\Dialogs\DepartamentDialog\DepartamentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -32,6 +32,12 @@ namespace OrgInfoSystemFW.View.Dialogs.EmloyeeDialog
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = true;
+        }
+
+        private void ClassCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedType = Classes[ClassCB.SelectedValue.ToString()];
             switch (SelectedType.Name)
             {
                 case "Intern":
@@ -122,12 +128,6 @@ namespace OrgInfoSystemFW.View.Dialogs.EmloyeeDialog
                     }
                     break;
             }
-            this.DialogResult = true;
-        }
-
-        private void ClassCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SelectedType = Classes[ClassCB.SelectedValue.ToString()];
         }
 
 

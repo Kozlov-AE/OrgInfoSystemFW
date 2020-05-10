@@ -32,9 +32,12 @@
                 <MenuItem Header="Генеририровать!" Command="{Binding Path=Generate}"/>
             </MenuItem>
             <MenuItem Header="Департаменты">
-                <MenuItem Header="Редактировать" Command="{Binding Path=EDepartament}"/>
-                <MenuItem Header="Добавить" Command="{Binding Path=AddDepartament}"/>
-                <MenuItem Header="Удалить" Command="{Binding Path=RemDepartament}"/>
+                <MenuItem Header="Редактировать" Command="{Binding Path=EDepartament}"
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Добавить" Command="{Binding Path=AddDepartament}"
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Удалить" Command="{Binding Path=RemoveDepartament}"
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
             </MenuItem>
             <MenuItem Header="Сотрудники">
                 <MenuItem Header="Добавить сотрудника в департамент" Command="{Binding Path=AddEmployee}" 

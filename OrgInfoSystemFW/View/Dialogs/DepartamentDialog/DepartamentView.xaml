@@ -1,11 +1,11 @@
-﻿<Window x:Class="OrgInfoSystemFW.View.EditMainDepartament"
+﻿<Window x:Class="OrgInfoSystemFW.View.Dialogs.DepartamentDialog.DepartamentView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrgInfoSystemFW.View"
         mc:Ignorable="d"
-        Title="EditMainDepartament" Height="200" Width="400" 
+        Title="DepartamentView" Height="200" Width="400" 
         MinWidth="400" MinHeight="200">
     <DockPanel LastChildFill="False">
         <Grid DockPanel.Dock="Top" VerticalAlignment="Top">
@@ -14,22 +14,26 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition x:Name="row1" Height="auto"/>
+                <RowDefinition x:Name="row2" Height="auto"/>
+                <RowDefinition x:Name="row3" Height="auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Наименование" Grid.Row="0" Grid.Column="0"
                        VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
             <TextBlock Text="Адрес" Grid.Row="1" Grid.Column="0"
-                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"
+                       Visibility="{Binding ElementName=AddressTB, Path=Visibility}"/>
             <TextBlock Text="Дата создания" Grid.Row="2" Grid.Column="0"
-                       VerticalAlignment="Center" Margin="30,0" FontSize="14"/>
+                       VerticalAlignment="Center" Margin="30,0" FontSize="14"                       
+                       Visibility="{Binding ElementName=BirthDayTB, Path=Visibility}"/>
             <TextBox x:Name="TitleTB" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
                     Margin="5" MinWidth="200"/>
             <TextBox x:Name="AddressTB" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Margin="5" MinWidth="200"/>
+                    Margin="5" MinWidth="200"
+                     Visibility="Collapsed"/>
             <TextBox x:Name="BirthDayTB" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Margin="5" MinWidth="200"/>
+                    Margin="5" MinWidth="200"
+                    Visibility="Collapsed"/>
         </Grid>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
                     VerticalAlignment="Center" HorizontalAlignment="Center">

@@ -38,5 +38,15 @@ namespace OrgInfoSystemFW.Model.Departamens
             }
         }
 
+        public override void Edit(BaseDepartament editedDepartament)
+        {
+            if (editedDepartament.GetType() == this.GetType())
+            {
+                Title = editedDepartament.Title;
+                Address = (editedDepartament as MainDeportament).Address;
+                BirthDay = (editedDepartament as MainDeportament).BirthDay;
+            }
+
+        }
     }
 }

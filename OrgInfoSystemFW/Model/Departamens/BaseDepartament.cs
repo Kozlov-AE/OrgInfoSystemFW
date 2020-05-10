@@ -8,12 +8,33 @@ using OrgInfoSystemFW.Model.Workers;
 using System.Net.Http.Headers;
 using OrgInfoSystemFW.View;
 using System.Deployment.Internal;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using OrgInfoSystemFW.Command;
 
 namespace OrgInfoSystemFW.Model.Departamens
 {
     public abstract class BaseDepartament : BaseINotify
     {
-        static MainDeportament Md;
+        /// <summary>Структура организации</summary>
+        static MainDeportament md;
+        public static MainDeportament Md
+        {
+            get
+            { 
+                if (md == null)
+            {
+                md = File.Exists("DB.json") ?
+                       JsonWorker.DeserealizeDepartamentWithSub(JToken.Parse(File.ReadAllText("DB.json"))) as MainDeportament :
+                       new GeneratorCommands().MainGeneratorV1(); 
+            }
+                return md;
+            }
+            set
+            {
+                md = value;
+            }
+        }
 
         protected string title;
         /// <summary>
@@ -39,7 +60,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// Уникальный ID
         /// </summary>
         public int Id
-        { 
+        {
             get => id;
             set
             {
@@ -70,7 +91,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// Подчиненные департаменты
         /// </summary>
         public ObservableCollection<BaseDepartament> SubDepartaments { get; set; }
-        
+
         /// <summary>
         /// Статичный конструктор
         /// </summary>
@@ -98,7 +119,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         /// Получаем частотный массив по должностям работников
         /// </summary>
         /// <returns>Словарь с количествами работников определенных должностей</returns>
-        public Dictionary <string, int> GetCountWorkers()
+        public Dictionary<string, int> GetCountWorkers()
         {
             Dictionary<string, int> dic = new Dictionary<string, int>();
             dic.Add("Intern", 0);
@@ -148,28 +169,33 @@ namespace OrgInfoSystemFW.Model.Departamens
         }
 
         #region Добавить/Удалить департамент
-            /// <summary>
-            /// Добавить дочерний департамент
-            /// </summary>
-            public void AddSubDepartament(string title)
+        /// <summary>Редактирование департамента</summary>
+        /// <param name="editedDepartament">Отредактированный экземпляр депратамента</param>
+        public abstract void Edit(BaseDepartament editedDepartament);
+
+        /// <summary>Добавить дочерний департамент</summary>
+        public void AddSubDepartament(BaseDepartament dep)
+        {
+            SubDepartaments.Add(new Departament(dep.title, Id));
+        }
+
+        /// <summary> Удалить текущий департамент из структуры организации </summary>
+        public void Remove()
+        {
+            remove(Md, this.Id);
+        }
+        void remove(BaseDepartament dep, int id)
+        {
+            foreach (var d in dep.SubDepartaments)
             {
-                SubDepartaments.Add(new Departament(title, Id));
-            }
-            /// <summary>
-            /// Удаляет дочерний департамент по известному ID
-            /// </summary>
-            public void Remove(int id)
-            {
-                foreach (var d in SubDepartaments)
+                if (d.id == id)
                 {
-                    if (d.Id == id)
-                    {
-                        SubDepartaments.Remove(d);
-                        return;
-                    }
-                    else d.Remove(id);
+                    dep.SubDepartaments.Remove(d);
+                    return;
                 }
+                else remove(d, id);
             }
+        }
         #endregion
     }
 }
