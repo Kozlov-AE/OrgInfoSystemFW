@@ -4,12 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OrgInfoSystemFW.View.Dialogs.EmloyeeDialog"
+        xmlns:comm="clr-namespace:OrgInfoSystemFW.Common"
         mc:Ignorable="d"
-        Title="EmployeeDialogView" Height="450" MinWidth="450" Width="450">
+        d:DataContext="{x:Type local:IPresonInfo}"
+        Title="EmployeeDialogView" Height="517" MinWidth="450" Width="450">
     <Window.Resources>
-        <!--Дополнительные Контроллы-->
-        <!--<local:AddInternControl x:Key="InternControl"/>-->
-
+        <comm:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
         <!--Стиль кнопок-->
         <Style TargetType="Button">
             <Setter Property="Height" Value="25"/>
@@ -26,7 +26,7 @@
         <Style TargetType="TextBox">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="5,10"/>
             <Setter Property="MinWidth" Value="200"/>
         </Style>
         <Style TargetType="DatePicker">
@@ -44,7 +44,7 @@
         </Style>
         <!--Стиль строк таблицы-->
         <Style TargetType="RowDefinition">
-            <Setter Property="Height" Value="40"/>
+            <Setter Property="Height" Value="auto"/>
         </Style>
         <!--Стиль столбца таблицы-->
         <Style TargetType="ColumnDefinition">
@@ -74,7 +74,10 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition Height="auto"/>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <TextBlock  Text="Должность"         Grid.Row="0" Grid.Column="0"/>
@@ -86,16 +89,17 @@
             <TextBlock  Text="Специальность"     Grid.Row="6" Grid.Column="0"/>
 
             <ComboBox   x:Name="ClassCB" Grid.Row="0" Grid.Column="1" 
-                        ItemsSource="{Binding Classes, XPath=Keys}"
-                        SelectedItem="{Binding Path=SelectedClass, Mode=TwoWay}"
-                        SelectionChanged="ClassCB_SelectionChanged"/>
-            <TextBox    x:Name="NameTB"     Grid.Row="1" Grid.Column="1"/>
-            <TextBox    x:Name="SurnameTB"  Grid.Row="2" Grid.Column="1"/>
-            <DatePicker x:Name="BirthDayTB" Grid.Row="3" Grid.Column="1"/>
-            <TextBox    x:Name="AgeTB"      Grid.Row="4" Grid.Column="1"    IsReadOnly="True"/>
-            <TextBox    x:Name="AddressTB"  Grid.Row="5" Grid.Column="1"/>
-            <TextBox    x:Name="PositionTB" Grid.Row="6" Grid.Column="1"/>
-            <ContentPresenter Grid.Row="8" Grid.Column="0"
+                        ItemsSource="{Binding EmployeeClasses}"
+                        SelectedItem="{Binding SelectedClassKey, Mode=TwoWay}"
+                        SelectionChanged="ClassCB_SelectionChanged" 
+                        IsEnabled="{Binding IsNewEmployee}"/>
+            <TextBox    x:Name="NameTB"     Grid.Row="1" Grid.Column="1" Text="{Binding Employee.Name}"/>
+            <TextBox    x:Name="SurnameTB"  Grid.Row="2" Grid.Column="1" Text="{Binding Employee.Surname}"/>
+            <DatePicker x:Name="BirthDayTB" Grid.Row="3" Grid.Column="1" SelectedDate="{Binding Employee.Birthday, Mode=TwoWay}"/>
+            <TextBox    x:Name="AgeTB"      Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding Employee.Age, Mode=OneWay}"/>
+            <TextBox    x:Name="AddressTB"  Grid.Row="5" Grid.Column="1" Text="{Binding Employee.Address}"/>
+            <TextBox    x:Name="PositionTB" Grid.Row="6" Grid.Column="1" Text="{Binding Employee.Position}"/>
+            <ContentPresenter Grid.Row="7" Grid.Column="0"
                               Grid.ColumnSpan="2"
                               x:Name="contentPresenter"/>
         </Grid>

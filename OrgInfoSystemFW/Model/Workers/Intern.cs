@@ -9,9 +9,7 @@ namespace OrgInfoSystemFW.Model.Workers
 {
     public class Intern : BaseSubordinates
     {
-        public Intern()
-        {
-        }
+        public Intern() : base(){}
 
         public Intern(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament) {}
             

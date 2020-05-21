@@ -1,25 +1,24 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OrgInfoSystemFW.Common;
 using OrgInfoSystemFW.Model.Departamens;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace OrgInfoSystemFW.Model.Workers
 {
-    public abstract class BasePerson : BaseINotify
+    public abstract class BasePerson : BaseINotify, ICloneable<BasePerson>, ICopy<BasePerson>, IEqualsValue<BasePerson>
     {
         static public Dictionary<string, Type> Classes;
         public static int globalId;
-        /// <summary>
-        /// Класс
-        /// </summary>
+        /// <summary>Класс</summary>
         public string Class => this.GetType().Name;
-        /// <summary>
-        /// Уникальный ID
-        /// </summary>
+        /// <summary>Уникальный ID</summary>
         int id;
         public int Id
         {
@@ -30,9 +29,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// Имя
-        /// </summary>
+        /// <summary>Имя</summary>
         string name;
         public string Name
         {
@@ -43,9 +40,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// Фамилия
-        /// </summary>
+        /// <summary>Фамилия</summary>
         string surname;
         public string Surname
         {
@@ -56,22 +51,21 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// День рождения
-        /// </summary>
+        /// <summary>День рождения</summary>
         DateTime birthday;
         public DateTime Birthday
         {
-            get { return birthday; }
+            get 
+            { 
+                return birthday.Date; 
+            }
             set
             {
-                birthday = value.Date;
+                birthday = value;
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// Адрес проживания
-        /// </summary>
+        /// <summary>Адрес проживания</summary>
         string address;
         public string Address
         {
@@ -82,9 +76,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// Департамент в котором он находится
-        /// </summary>
+        /// <summary>Департамент в котором он находится</summary>
         BaseDepartament departament;
         public BaseDepartament Departament
         {
@@ -95,9 +87,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// Занимаемая должность
-        /// </summary>
+        /// <summary>Занимаемая должность</summary>
         string position;
         public string Position
         {
@@ -108,9 +98,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 OnPropertyChanged("");
             }
         }
-        /// <summary>
-        /// Вычисляет возраст на основе даты рождения
-        /// </summary>
+        /// <summary>Вычисляет возраст на основе даты рождения</summary>
         public int Age
         {
             get
@@ -143,7 +131,7 @@ namespace OrgInfoSystemFW.Model.Workers
                 Classes.Add("Директор",typeof(King));
             }
         }
-        public BasePerson(string name, string surname, string position, BaseDepartament departament, int id = -1)
+        public BasePerson(string name, string surname, string position, BaseDepartament departament, int id = -1) : base()
         {
             if (id == -1)
                 this.id = NextID();
@@ -153,7 +141,11 @@ namespace OrgInfoSystemFW.Model.Workers
             this.Position = position;
             this.Departament = departament;
         }
-        public BasePerson() { }
+        public BasePerson()
+        { 
+            Birthday = DateTime.Now.AddYears(-20); 
+        }
+
         /// <summary>
         /// Увеличиваем статичный ID
         /// </summary>
@@ -164,27 +156,82 @@ namespace OrgInfoSystemFW.Model.Workers
             return globalId;
         }
 
-        //static public BasePerson CreateDialog(BaseDepartament departament)
-        //{
-            
-        //}
-
-
-        #region Методы взаимодействия с департаментами
-        /// <summary>
-        /// Добавить сотрудника в департамент
-        /// </summary>
-        public void AddToDepartament (BaseDepartament departament)
+        /// <summary>Статичный метод создания нового человека на основе входящего типа</summary>
+        /// <param name="type">Класс требуемого сотрудника</param>
+        public static BasePerson CreatePerson(Type type)
         {
-            this.departament = departament;
-            departament.Employees.Add(this);
+            BasePerson e;
+            switch (type.Name)
+            {
+                case "Intern":
+                    e = new Intern();
+                    e.id = NextID();
+                    return e;
+                case "Worker":
+                    e = new Worker();
+                    e.id = NextID();
+                    return e;
+                case "DepartmentHead":
+                    e = new DepartmentHead(); 
+                    e.id = NextID();
+                    return e;
+                case "LowDirector":
+                    e = new LowDirector();                    
+                    e.id = NextID();
+                    return e;
+                case "MidDirector":
+                    e = new MidDirector();                    
+                    e.id = NextID();
+                    return e;
+                case "TopDirector":
+                    e = new TopDirector();                   
+                    e.id = NextID();
+                    return e;
+                case "King":
+                    e = new King();                    
+                    e.id = NextID();
+                    return e;
+                default:
+                    return null;
+            }
         }
 
-        public void Remove(BaseDepartament departament, BaseDepartament archive)
+        #region Реализация ICloneable<BasePerson>
+        public BasePerson Clone() => (BasePerson)MemberwiseClone();
+        object ICloneable.Clone() => MemberwiseClone();
+
+        public virtual void CopyTo(BasePerson other)
         {
-            archive.Employees.Add(this);
-            departament.Employees.Remove(this);
+            if (other == null) throw new ArgumentException(nameof(other));
+            other.Id = id;
+            other.Name = Name;
+            other.Surname = Surname;
+            other.Position = Position;
+            other.Departament = Departament;
+            other.Birthday = Birthday;
+            other.Address = Address;
         }
+
+        public virtual void CopyFrom(BasePerson other)
+        {
+            if (other == null) throw new ArgumentException(nameof(other));
+            Id = other.id;
+            Name = other.Name;
+            Surname = other.Surname;
+            Position = other.Position;
+            Departament = other.Departament;
+            Birthday = other.Birthday;
+            Address = other.Address;
+        }
+
+        public virtual bool EqualsValue(BasePerson other)=>
+            Id == other.Id
+            && Name == other.Name
+            && Surname == other.Surname
+            && Position == other.Position
+            && Departament == other.Departament
+            && Birthday == other.Birthday
+            && Address == other.Address;
         #endregion
     }
 }

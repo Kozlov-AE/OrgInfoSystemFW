@@ -5,6 +5,7 @@ using OrgInfoSystemFW.Model.Departamens;
 using OrgInfoSystemFW.Model.Workers;
 using OrgInfoSystemFW.View;
 using OrgInfoSystemFW.View.Dialogs.DepartamentDialog;
+using OrgInfoSystemFW.View.Dialogs.EmloyeeDialog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -75,10 +76,46 @@ namespace OrgInfoSystemFW.ViewModel
         #endregion
 
         #region Меню Сотрудники
+
+        RelayCommand killEmployee;
+        /// <summary>Увольнение сотрудника</summary>
+        public RelayCommand KillEmployee
+        {
+            get
+            {
+                return killEmployee ??
+                  (killEmployee = new RelayCommand(o =>
+                  {
+                      (o as BaseDepartament).RemoveEmployee(SelectedEmployee);
+                  }, _ => SelectedEmployee != null));
+            }
+        }
+
+
+        RelayCommand editEmployee;
+        /// <summary>Редактирование сотрудника</summary>
+        public RelayCommand EditEmployee
+        {
+            get
+            {
+                return editEmployee ??
+                  (editEmployee = new RelayCommand(o =>
+                  {
+                        EmployeeVM vm = new EmployeeVM(SelectedEmployee.Clone());
+                        EmployeeDialogView ed = new EmployeeDialogView();
+                        ed.DataContext = vm;
+                        ed.Title = "Редактирование сотрудника";
+                        ed.ShowDialog();
+                        if (ed.DialogResult == true)
+                        {
+                          SelectedEmployee.CopyFrom(vm.Employee);
+                        }
+                  },_ => SelectedEmployee != null));
+            }
+        }
+
         RelayCommand addEmployee;
-        /// <summary>
-        /// Новый интерн
-        /// </summary>
+        /// <summary>Новый сотрудник</summary>
         public RelayCommand AddEmployee
         {
             get
@@ -89,13 +126,15 @@ namespace OrgInfoSystemFW.ViewModel
                       BaseDepartament dep = o as BaseDepartament;
                       if (dep != null)
                       {
-                          View.Dialogs.EmloyeeDialog.EmployeeDialogView ed = new View.Dialogs.EmloyeeDialog.EmployeeDialogView();
+                          EmployeeVM vm = new EmployeeVM();
+                          EmployeeDialogView ed = new EmployeeDialogView();
+                          ed.DataContext = vm;
                           ed.Title = "Новый сотрудник";
                           ed.ShowDialog();
-                            if (ed.DialogResult == true)
-                              {
-                                  dep.Employees.Add(ed.person);
-                              }
+                          if (ed.DialogResult == true)
+                          {
+                              dep.AddEmployee(vm.Employee);
+                          }
                       }
                   }));
             }

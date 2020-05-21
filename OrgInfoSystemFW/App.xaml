@@ -1,8 +1,9 @@
 ﻿<Application x:Class="OrgInfoSystemFW.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:OrgInfoSystemFW">
+             xmlns:local="clr-namespace:OrgInfoSystemFW"
+             xmlns:comm="clr-namespace:OrgInfoSystemFW.Common">
     <Application.Resources>
-         
+        <comm:StringToDoubleConverter x:Key="StringToDoubleConverter"/>
     </Application.Resources>
 </Application>

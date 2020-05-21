@@ -20,9 +20,26 @@ namespace OrgInfoSystemFW.Model.Workers
             }
         }
 
-        public BaseSubordinates() { }
+        public BaseSubordinates() : base() { }
         public BaseSubordinates(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
+
+        public override void CopyTo(BasePerson other)
+        {
+            base.CopyTo(other);
+            if (other is BaseSubordinates baseSubordinates)
+                baseSubordinates.Salary = salary;
+        }
+
+        public override void CopyFrom(BasePerson other)
+        {
+            base.CopyFrom(other);
+            if (other is BaseSubordinates baseSubordinates)
+                Salary = baseSubordinates.salary;
+        }
+
+        public override bool EqualsValue(BasePerson other) => base.EqualsValue(other) &&
+                (!(other is BaseSubordinates baseSubordinates) || Salary == baseSubordinates.salary);
     }
 }

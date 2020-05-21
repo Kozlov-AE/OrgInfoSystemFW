@@ -27,8 +27,24 @@ namespace OrgInfoSystemFW.Model.Workers
 
         public Worker(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament) { }
 
-        public Worker()
+        public Worker() : base() { }
+
+        public override void CopyTo(BasePerson other)
         {
+            base.CopyTo(other);
+            if (other is Worker worker)
+                worker.WorkHours = WorkHours;
         }
+
+        public override void CopyFrom(BasePerson other)
+        {
+            base.CopyFrom(other);
+            if (other is Worker worker)
+                WorkHours = worker.WorkHours;
+
+        }
+
+        public override bool EqualsValue(BasePerson other) => 
+            base.EqualsValue(other) && (!(other is Worker worker) || WorkHours == worker.WorkHours);
     }
 }

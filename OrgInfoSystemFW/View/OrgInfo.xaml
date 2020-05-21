@@ -42,6 +42,10 @@
             <MenuItem Header="Сотрудники">
                 <MenuItem Header="Добавить сотрудника в департамент" Command="{Binding Path=AddEmployee}" 
                           CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+                <MenuItem Header="Редактировать" Command="{Binding Path=EditEmployee}"/>
+                <MenuItem Header="Уволить" Command="{Binding Path=KillEmployee}"
+                          CommandParameter="{Binding ElementName=DepartamensTree, Path=SelectedValue}"/>
+
             </MenuItem>
         </Menu>
         <!--Дерево департаментов-->
@@ -59,7 +63,8 @@
             </local:ExtendedTreeView.ItemTemplate>
         </local:ExtendedTreeView>
         <!--Список сотрудников выбранного департамента-->
-        <DataGrid Grid.Row="1" Grid.Column="2" CanUserAddRows="False" CanUserDeleteRows="False"
+        <DataGrid x:Name="EmployeesTable"
+                 Grid.Row="1" Grid.Column="2" CanUserAddRows="False" CanUserDeleteRows="False"
                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionMode="Single"
                  AutoGenerateColumns="False" SelectedValue="{Binding SelectedEmployee, Mode=TwoWay}"
                  ItemsSource="{Binding ElementName=DepartamensTree, Path=SelectedValue.Employees}">

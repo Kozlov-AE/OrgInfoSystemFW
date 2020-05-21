@@ -61,6 +61,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\GeneratorCommands.cs" />
+    <Compile Include="Common\ICloneable.cs" />
+    <Compile Include="Common\ICopy.cs" />
+    <Compile Include="Common\IEqualsValue.cs" />
+    <Compile Include="Common\StringToDoubleConverter.cs" />
     <Compile Include="Model\Workers\JsonWorker.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
@@ -70,34 +74,24 @@
     <Compile Include="View\Dialogs\EmloyeeDialog\EmployeeDialogView.xaml.cs">
       <DependentUpon>EmployeeDialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Dialogs\EmloyeeDialog\EmployeeVM.cs" />
+    <Compile Include="View\Dialogs\EmloyeeDialog\IPresonInfo.cs" />
     <Compile Include="View\Dialogs\EmloyeeDialog\InternControl.xaml.cs">
       <DependentUpon>InternControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Dialogs\EmloyeeDialog\WorkerControl.xaml.cs">
       <DependentUpon>WorkerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DirectorView.xaml.cs">
-      <DependentUpon>DirectorView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Dialogs\DepartamentDialog\DepartamentView.xaml.cs">
       <DependentUpon>DepartamentView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\EmployeeInformation.xaml.cs">
-      <DependentUpon>EmployeeInformation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ExtendedTreeView.cs" />
-    <Compile Include="View\InernView.xaml.cs">
-      <DependentUpon>InernView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\OrgInfo.xaml.cs">
-      <DependentUpon>OrgInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\WorkerView.xaml.cs">
-      <DependentUpon>WorkerView.xaml</DependentUpon>
+    <Compile Include="View\ExtendedTreeView.cs" />
+    <Compile Include="View\OrgInfo.xaml.cs">
+      <DependentUpon>OrgInfo.xaml</DependentUpon>
     </Compile>
     <Page Include="View\Dialogs\EmloyeeDialog\DirectorControl.xaml">
       <SubType>Designer</SubType>
@@ -115,27 +109,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DirectorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Dialogs\DepartamentDialog\DepartamentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\EmployeeInformation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\InernView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\OrgInfo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\WorkerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

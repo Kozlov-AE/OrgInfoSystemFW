@@ -197,5 +197,18 @@ namespace OrgInfoSystemFW.Model.Departamens
             }
         }
         #endregion
+
+        #region Работа с сотрудниками
+        public void AddEmployee(BasePerson employee)
+        {
+            if (employee == null) return;
+            employee.Departament = this;
+            Employees.Add(employee);
+        }
+        public void RemoveEmployee(BasePerson employee)
+        {
+            Employees.Remove(employee);
+        }
+        #endregion
     }
 }

@@ -38,9 +38,36 @@ namespace OrgInfoSystemFW.Model.Workers
         /// <param name="start">Начальная ЗП</param>
         protected abstract double GetAllDepSalaryes();
 
-        public BaseDirector() { }
+
+        public BaseDirector() : base() { }
         public BaseDirector(string name, string surname, string position, BaseDepartament departament) : base(name, surname, position, departament)
         {
         }
+
+        public override void CopyTo(BasePerson other)
+        {
+            base.CopyTo(other);
+            if (other is BaseDirector director)
+            {
+                director.CoefSalary = CoefSalary;
+                director.LowSalary = LowSalary;
+            }
+        }
+
+        public override void CopyFrom(BasePerson other)
+        {
+            base.CopyFrom(other);
+            if (other is BaseDirector director)
+            {
+                CoefSalary = director.CoefSalary;
+                LowSalary = director.LowSalary;
+            }
+
+        }
+
+        public override bool EqualsValue(BasePerson other) =>
+            base.EqualsValue(other) &&
+                (!(other is BaseDirector director) || (CoefSalary == director.CoefSalary && LowSalary == director.LowSalary));
+
     }
 }
