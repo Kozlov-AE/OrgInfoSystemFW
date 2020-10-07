@@ -31,23 +31,23 @@ namespace OrgInfoSystemFW.ViewModel
         }
 
         #region Меню Департаент
-            RelayCommand eDepartament;
-            /// <summary>
-            /// Редактировать выделенный депатамент
-            /// </summary>
-            public RelayCommand EDepartament
+        RelayCommand eDepartament;
+        /// <summary>
+        /// Редактировать выделенный депатамент
+        /// </summary>
+        public RelayCommand EDepartament
+        {
+            get
             {
-                get
-                {
-                    return eDepartament ??
-                      (eDepartament = new RelayCommand(o =>
-                      {
-                          DepartamentView ed = new DepartamentView(o as BaseDepartament);
-                          if (ed.ShowDialog() == true) 
-                              (o as BaseDepartament).Edit(ed.ReturnDepartament);
-                      }, _ => SelectedDepartament != null));
-                }
+                return eDepartament ??
+                    (eDepartament = new RelayCommand(o =>
+                    {
+                        DepartamentView ed = new DepartamentView(o as BaseDepartament);
+                        if (ed.ShowDialog() == true) 
+                            (o as BaseDepartament).Edit(ed.ReturnDepartament);
+                    }, _ => SelectedDepartament != null));
             }
+        }
 
         RelayCommand addDepartament;
         /// <summary>
