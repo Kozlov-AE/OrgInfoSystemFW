@@ -20,14 +20,38 @@ namespace OrgInfoSystemFW.ViewModel
 {
     public class MainVM : INotifyPropertyChanged
     {
+        private Action<string> logger;
         public ObservableCollection<BaseDepartament> Deps { get; set; }
 
-        public BaseDepartament SelectedDepartament { get; set; }
+        private BaseDepartament selectedDepartament;
+
+        public BaseDepartament SelectedDepartament
+        {
+            get => selectedDepartament;
+            set
+            {
+                if (value != null)
+                {
+                    selectedDepartament = value;
+                    selectedDepartament.OnChange += logger;
+                }
+                if (value == null)
+                {
+                    selectedDepartament.OnChange -= logger;
+                    selectedDepartament = null;
+                }
+            }
+        }
+
+
         public BasePerson SelectedEmployee { get; set; }
 
-        public MainVM()
+        public MainVM(Action<string> logger)
         {
+            this.logger = logger;
             Deps = new ObservableCollection<BaseDepartament>() { BaseDepartament.Md };
+            BaseDepartament.OnCreate += logger;
+            BaseDepartament.OnDelete += logger;
         }
 
         #region Меню Департаент
@@ -62,7 +86,10 @@ namespace OrgInfoSystemFW.ViewModel
                   {
                       DepartamentView ed = new DepartamentView();
                       if (ed.ShowDialog() == true)
+                      { 
                           (o as BaseDepartament).AddSubDepartament(ed.ReturnDepartament);
+
+                      }
                   }, _ => SelectedDepartament != null));
             }
         }
@@ -71,7 +98,10 @@ namespace OrgInfoSystemFW.ViewModel
         RelayCommand removeDepartament;
             /// <summary>Удалить выделенный депатамент</summary>
             public RelayCommand RemoveDepartament => removeDepartament ??
-                      (removeDepartament = new RelayCommand(o => SelectedDepartament.Remove(),
+                      (removeDepartament = new RelayCommand(o =>
+                      {
+                          SelectedDepartament.Remove();
+                      },
                        _ => SelectedDepartament != null));
         #endregion
 

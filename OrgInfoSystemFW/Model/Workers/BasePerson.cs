@@ -55,10 +55,7 @@ namespace OrgInfoSystemFW.Model.Workers
         DateTime birthday;
         public DateTime Birthday
         {
-            get 
-            { 
-                return birthday.Date; 
-            }
+            get => birthday.Date; 
             set
             {
                 birthday = value;

@@ -11,11 +11,18 @@ using System.Deployment.Internal;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using OrgInfoSystemFW.Command;
+using System.Runtime.CompilerServices;
 
 namespace OrgInfoSystemFW.Model.Departamens
 {
     public abstract class BaseDepartament : BaseINotify
     {
+        #region Delegates && Events
+        public static event Action<string> OnCreate;
+        public abstract event Action<string> OnChange;
+        public static event Action<string> OnDelete;
+        #endregion
+
         /// <summary>Структура организации</summary>
         static MainDeportament md;
         public static MainDeportament Md
@@ -113,6 +120,8 @@ namespace OrgInfoSystemFW.Model.Departamens
             ParentId = parentId;
             Employees = new ObservableCollection<BasePerson>();
             SubDepartaments = new ObservableCollection<BaseDepartament>();
+
+            OnCreate?.Invoke($"Создан департамент \"{Title}\" с Id = {Id}");
         }
 
         /// <summary>
@@ -183,7 +192,9 @@ namespace OrgInfoSystemFW.Model.Departamens
         public void Remove()
         {
             remove(Md, this.Id);
+            OnDelete?.Invoke($"Уничтожен департамент \"{Title}\" с ID = {Id}, включая все дочерние департаменты с сотрудниками");
         }
+
         void remove(BaseDepartament dep, int id)
         {
             foreach (var d in dep.SubDepartaments)
@@ -193,7 +204,10 @@ namespace OrgInfoSystemFW.Model.Departamens
                     dep.SubDepartaments.Remove(d);
                     return;
                 }
-                else remove(d, id);
+                else
+                {
+                    remove(d, id);
+                }
             }
         }
         #endregion

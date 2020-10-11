@@ -8,6 +8,7 @@ namespace OrgInfoSystemFW.Model.Departamens
 {
     public class MainDeportament : BaseDepartament
     {
+        public override event Action<string> OnChange;
         public MainDeportament(string title, int parentId = 0) : base(title, parentId)
         {
         }
@@ -30,7 +31,7 @@ namespace OrgInfoSystemFW.Model.Departamens
         protected DateTime birthDay;
         public DateTime BirthDay
         {
-            get { return birthDay; }
+            get => birthDay; 
             set
             {
                 birthDay = value;
@@ -45,8 +46,8 @@ namespace OrgInfoSystemFW.Model.Departamens
                 Title = editedDepartament.Title;
                 Address = (editedDepartament as MainDeportament).Address;
                 BirthDay = (editedDepartament as MainDeportament).BirthDay;
+                OnChange($"Отредактирован департамент с ID {editedDepartament.Id}");
             }
-
         }
     }
 }

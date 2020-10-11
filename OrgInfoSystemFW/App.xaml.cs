@@ -23,8 +23,9 @@ namespace OrgInfoSystemFW
         OrgInfo oi;
         protected override void OnStartup(StartupEventArgs e)
         {
+            Logger.Logger.InitLogger();
             base.OnStartup(e);
-            mv = new MainVM();
+            mv = new MainVM(Logger.Logger.Log.Info);
 
             oi = new OrgInfo();
             oi.DataContext = mv;
